@@ -1,2 +1,2 @@
 * text eol=crlf
-docs/images/** binary
+docs/images/**/*.png binary
