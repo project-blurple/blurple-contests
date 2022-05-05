@@ -43,3 +43,17 @@ When you've set up a contest, you need a submit button. The button will act as a
 ![Submit button](./images/light/submit-button.png#gh-light-mode-only)
 
 You can also list and filter participants in a contest with the command [`/contests list_participants`](../src/commands/slash/contests/list_participants.ts).
+
+## Leaderboard
+
+A leaderboard is a way to manually managing a contest. If the sole purpose is to have a leaderboard of participants, without any form of submission, then this will be the tool to use.
+
+![Leaderboard](./images/dark/leaderboard.png#gh-dark-mode-only)
+![Leaderboard](./images/light/leaderboard.png#gh-light-mode-only)
+
+### Manage a leaderboard
+
+If you want to edit the leaderboard then click the button, and it will appear like this. Each line is `Name: Score`, and multiple entries are separated with a new line. The bot will automatically sort the leaderboard before updating.
+
+![Leaderboard modal](./images/dark/leaderboard-modal.png#gh-dark-mode-only)
+![Leaderboard modal](./images/light/leaderboard-modal.png#gh-light-mode-only)
