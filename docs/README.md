@@ -18,6 +18,10 @@ Requirements:
 Initial setup:
 * Copy [`example.env`](../example.env) to `.env` and fill in the values
 
+When you want to start the bot: `npm run docker`
+
+When you want to stop the bot: `npm run docker:down`
+
 Although it also works without, we strongly recommend using Docker for this. If you're unexperienced or just want it up and running then use Docker.
 
 ### Setup Permissions
