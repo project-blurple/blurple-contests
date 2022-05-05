@@ -19,3 +19,12 @@ Initial setup:
 * Copy [`example.env`](../example.env) to `.env` and fill in the values
 
 Although it also works without, we strongly recommend using Docker for this. If you're unexperienced or just want it up and running then use Docker.
+
+### Setup Permissions
+
+Now with Permissions v2, the bot will not need a built-in permission system. The only thing it has is a list of admin roles that can manage submissions and edit leaderboards as these are not interactions. Commands are handled by the built-in Discord permission system now.
+
+![Permissions v2](./images/dark/permissions.png#gh-dark-mode-only)
+![Permissions v2](./images/light/permissions.png#gh-light-mode-only)
+
+You can choose where and who can use these commands. A participant won't need any commands to interact and participate with bots.
