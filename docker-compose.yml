@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  contests:
+    build: .
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://mongo/contests
+    volumes:
+      - ./logs:/app/logs
+  mongo:
+    image: mongo:4
+    restart: always
+    volumes:
+      - ./data:/data/db
