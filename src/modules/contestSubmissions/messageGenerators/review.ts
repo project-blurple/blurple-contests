@@ -96,7 +96,7 @@ components.set("contest-review-reject", {
               .split("\n")
               .map(line => `> ${line}`)
               .join("\n"),
-            "Send <@971015635716935691> (`BlurpleMail#8368`) a direct message for more information about its rejection if you feel that the decision is unfair.",
+            "Send <@536491357322346499> (`BlurpleMail#8368`) a direct message for more information about its rejection if you feel that the decision is unfair.",
           ].join("\n"),
         embeds: [generateSubmissionEmbed(contestSubmission)],
       }).catch())
