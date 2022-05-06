@@ -64,6 +64,21 @@ components.set("contest-submission-vote", {
       });
     }
 
+    // check voting dates
+    const now = new Date();
+    if (now < contest.votingOpenedDate) {
+      return void interaction.reply({
+        content: `${Emojis.ANGER} Voting period for this contest starts <t:${Math.round(contest.votingOpenedDate.getTime() / 1000)}:R>.`,
+        ephemeral: true,
+      });
+    }
+    if (now > contest.votingClosedDate) {
+      return void interaction.reply({
+        content: `${Emojis.ANGER} Voting period for this contest closed <t:${Math.round(contest.votingClosedDate.getTime() / 1000)}:R>.`,
+        ephemeral: true,
+      });
+    }
+
     const votes = await ContestVoteEntry.find({ contestId, userId: interaction.user.id });
     const registeredVote = votes.find(vote => vote.submissionId === submissionId);
 
