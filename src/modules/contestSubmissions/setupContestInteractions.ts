@@ -85,26 +85,169 @@ export function setupContestInteractions({ contestId, submissionType, reviewChan
     },
   });
 
-  modals.set(`submit-contest-modal-${contestId}`, async modal => {
+  modals.set(`submit-contest-modal-${contestId}`, modal => {
     const deferred = modal.deferReply({ ephemeral: true });
 
-    const title = getModalTextInput(modal.components, "title")!;
-    const submission = getModalTextInput(modal.components, "submission")!;
+    let title = getModalTextInput(modal.components, "title")!;
+    let submission = getModalTextInput(modal.components, "submission")!;
     if (submissionType === "image" && !testLink(submission)) {
       return void deferred.then(() => modal.editReply({
         content: `${Emojis.ANGER} Invalid image URL.`,
+        components: [],
+        embeds: [],
       }));
     }
 
     const contestSubmission = new ContestSubmission({ contestId, title, submission, submissionType, authorId: modal.user.id });
-    const message = await (modal.client.channels.resolve(reviewChannelId) as TextBasedChannel).send(generateReviewMessage(contestSubmission));
-    contestSubmission.messageLink = message.url;
 
-    await contestSubmission.save();
+    components.set(`${modal.id}-lgtm`, {
+      type: "BUTTON",
+      allowedUsers: [modal.user.id],
+      async callback(interaction) {
+        const message = await (modal.client.channels.resolve(reviewChannelId) as TextBasedChannel).send(generateReviewMessage(contestSubmission));
+        contestSubmission.messageLink = message.url;
+        void contestSubmission.save();
+        return void interaction.update({
+          content: `${Emojis.THUMBSUP} Submission is now sent.`,
+          components: [],
+          embeds: [],
+        });
+      },
+    });
+
+    components.set(`${modal.id}-edit`, {
+      type: "BUTTON",
+      allowedUsers: [modal.user.id],
+      callback(interaction) {
+        modals.set(`${modal.id}-edit-modal`, editModal => {
+          title = getModalTextInput(editModal.components, "title")!;
+          submission = getModalTextInput(editModal.components, "submission")!;
+          if (submissionType === "image" && !testLink(submission)) {
+            return void deferred.then(() => editModal.editReply({
+              content: `${Emojis.ANGER} Invalid image URL.`,
+              components: [],
+              embeds: [],
+            }));
+          }
+
+          contestSubmission.title = title;
+          contestSubmission.submission = submission;
+
+          return void editModal.update({
+            content: `${Emojis.SPARKLE} Does this look good? Make sure you can see the ${submissionType} in the preview.`,
+            embeds: [generateSubmissionEmbed(contestSubmission)],
+            components: [
+              {
+                type: "ACTION_ROW",
+                components: [
+                  {
+                    type: "BUTTON",
+                    style: "SUCCESS",
+                    customId: `${modal.id}-lgtm`,
+                    label: "Looks good to me!",
+                  },
+                  {
+                    type: "BUTTON",
+                    style: "SECONDARY",
+                    customId: `${modal.id}-edit`,
+                    label: "Edit",
+                  },
+                  {
+                    type: "BUTTON",
+                    style: "DANGER",
+                    customId: `${modal.id}-cancel`,
+                    label: "Cancel",
+                  },
+                ],
+              },
+            ],
+          });
+        });
+
+        return void interaction.showModal({
+          title: "Edit new submission",
+          customId: `${modal.id}-edit-modal`,
+          components: ([
+            {
+              type: "TEXT_INPUT",
+              style: "SHORT",
+              customId: "title",
+              label: "Submission title",
+              placeholder: "The Big Wumpus",
+              minLength: 1,
+              maxLength: 32,
+              required: true,
+              value: title,
+            },
+            submissionType === "text" ?
+              {
+                type: "TEXT_INPUT",
+                style: "PARAGRAPH",
+                customId: "submission",
+                label: "Submission text",
+                placeholder: "The Big Wumpus ate a big apple and became the apple. The End.",
+                minLength: 1,
+                maxLength: 2048,
+                required: true,
+                value: submission,
+              } :
+              {
+                type: "TEXT_INPUT",
+                style: "SHORT",
+                customId: "submission",
+                label: "Submission image URL",
+                placeholder: "https://i.imgur.com/wumpus.png",
+                required: true,
+                value: submission,
+              },
+          ] as TextInputComponentOptions[]).filter(Boolean).map(component => ({
+            type: "ACTION_ROW",
+            components: [component],
+          })),
+        });
+      },
+    });
+
+    components.set(`${modal.id}-cancel`, {
+      type: "BUTTON",
+      allowedUsers: [modal.user.id],
+      callback(interaction) {
+        return void interaction.update({
+          content: `${Emojis.THUMBSUP} Submission cancelled.`,
+          components: [],
+          embeds: [],
+        });
+      },
+    });
 
     return void deferred.then(() => modal.editReply({
-      content: `${Emojis.THUMBSUP} Submission received, please be patient while we review it. Keep your DMs opened so I can notify you!`,
+      content: `${Emojis.SPARKLE} Does this look good? Make sure you can see the ${submissionType} in the preview.`,
       embeds: [generateSubmissionEmbed(contestSubmission)],
+      components: [
+        {
+          type: "ACTION_ROW",
+          components: [
+            {
+              type: "BUTTON",
+              style: "SUCCESS",
+              customId: `${modal.id}-lgtm`,
+              label: "Looks good to me!",
+            },
+            {
+              type: "BUTTON",
+              style: "SECONDARY",
+              customId: `${modal.id}-edit`,
+              label: "Edit",
+            },
+            {
+              type: "BUTTON",
+              style: "DANGER",
+              customId: `${modal.id}-cancel`,
+              label: "Cancel",
+            },
+          ],
+        },
+      ],
     }));
   });
 }
