@@ -24,7 +24,7 @@
     "discord.js": "github:monbrey/discord.js#modals",
     "dotenv": "^16.0.0",
     "erlpack": "github:discord/erlpack",
-    "ffmpeg-static": "^4.4.1",
+    "ffmpeg-static": "^5.0.0",
     "human-date": "^1.4.0",
     "match-sorter": "^6.3.1",
     "mongoose": "^6.3.3",
