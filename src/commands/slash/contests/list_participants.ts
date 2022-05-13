@@ -60,11 +60,11 @@ const command: SlashCommand = {
         return bVotes - aVotes;
       });
 
-      // split submissionsSorted up into chunks of 40 since "<mention>\n" is 24 characters and 1024/24 = 40.96, so we have room for 40 rows
+      // split submissionsSorted up into chunks of 10 since [APPROVED](<message link>) is a maximum of 97 characters (so far), which goes 10 times in 1024 characters
       const chunks = [];
       let chunk = [];
       for (const submission of submissionsSorted) {
-        if (chunk.length === 40) {
+        if (chunk.length === 10) {
           chunks.push(chunk);
           chunk = [];
         }
@@ -78,7 +78,7 @@ const command: SlashCommand = {
           fields: [
             {
               name: "Participant",
-              value: submissionChunk.map((submission, index) => `**${chunkIndex * 40 + index + 1}.** <@${submission.authorId}>`).join("\n"),
+              value: submissionChunk.map((submission, index) => `**${chunkIndex * 10 + index + 1}.** <@${submission.authorId}>`).join("\n"),
               inline: true,
             },
             {
