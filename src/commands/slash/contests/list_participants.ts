@@ -60,32 +60,40 @@ const command: SlashCommand = {
         return bVotes - aVotes;
       });
 
+      // split submissionsSorted up into chunks of 40 since "<mention>\n" is 24 characters and 1024/24 = 40.96, so we have room for 40 rows
+      const chunks = [];
+      let chunk = [];
+      for (const submission of submissionsSorted) {
+        if (chunk.length === 40) {
+          chunks.push(chunk);
+          chunk = [];
+        }
+        chunk.push(submission);
+      }
+      chunks.push(chunk);
+
       return void interaction.reply({
         content: `${Emojis.THUMBSUP} Here are the participants of the contest: (filter: ${filter}) ${submissionsSorted.length ? "" : "\n> *No participants matched your filter*"}`,
-        embeds: submissionsSorted.length ?
-          [
+        embeds: chunks.map((submissionChunk, chunkIndex) => ({
+          fields: [
             {
-              fields: [
-                {
-                  name: "Participant",
-                  value: submissionsSorted.map((submission, index) => `**${index + 1}.** <@${submission.authorId}>`).join("\n"),
-                  inline: true,
-                },
-                {
-                  name: "Votes",
-                  value: submissionsSorted.map(submission => String(submissionVotes.filter(vote => vote.submissionId === submission.submissionId).length)).join("\n"),
-                  inline: true,
-                },
-                {
-                  name: "Status",
-                  value: submissionsSorted.map(submission => submission.status === ContestSubmissionStatus.REJECTED ? "REJECTED" : `[${submission.status}](${submission.messageLink})`).join("\n"),
-                  inline: true,
-                },
-              ],
-              color: Constants.Colors.BLURPLE,
+              name: "Participant",
+              value: submissionChunk.map((submission, index) => `**${chunkIndex * 40 + index + 1}.** <@${submission.authorId}>`).join("\n"),
+              inline: true,
             },
-          ] :
-          [],
+            {
+              name: "Votes",
+              value: submissionChunk.map(submission => String(submissionVotes.filter(vote => vote.submissionId === submission.submissionId).length)).join("\n"),
+              inline: true,
+            },
+            {
+              name: "Status",
+              value: submissionChunk.map(submission => submission.status === ContestSubmissionStatus.REJECTED ? "REJECTED" : `[${submission.status}](${submission.messageLink})`).join("\n"),
+              inline: true,
+            },
+          ],
+          color: Constants.Colors.BLURPLE,
+        })),
       });
     }
 
