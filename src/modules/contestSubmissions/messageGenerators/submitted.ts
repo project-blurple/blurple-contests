@@ -9,11 +9,9 @@ import config from "../../../config";
 import { generateSubmissionEmbed } from ".";
 import { mainLogger } from "../../../utils/logger";
 
-export async function generateSubmittedMessage(submission: ContestSubmissionDocument, votingEnd = false): Promise<Omit<MessageEditOptions, "embeds" | "flags"> & Pick<MessageOptions, "embeds">> {
-  const votes = votingEnd ? await ContestVoteEntry.find({ contestId: submission.contestId, submissionId: submission.submissionId }).then(list => list.length) : null;
-
+export function generateSubmittedMessage(submission: ContestSubmissionDocument, votingEnd = false): Omit<MessageEditOptions, "embeds" | "flags"> & Pick<MessageOptions, "embeds"> {
   return {
-    content: `${votes === null ? "" : `${Emojis.STAR} **${votes} |**`} Submission by <@${submission.authorId}>.`,
+    content: `Submission by <@${submission.authorId}>.`,
     embeds: [generateSubmissionEmbed(submission)],
     allowedMentions: { users: [submission.authorId]},
     components: votingEnd ?

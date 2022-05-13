@@ -26,7 +26,7 @@ components.set("contest-review-approve", {
     }
 
     contestSubmission.status = ContestSubmissionStatus.APPROVED;
-    const message = await (interaction.client.channels.resolve(contest.submissionChannelId) as TextBasedChannel).send(await generateSubmittedMessage(contestSubmission));
+    const message = await (interaction.client.channels.resolve(contest.submissionChannelId) as TextBasedChannel).send(generateSubmittedMessage(contestSubmission));
     contestSubmission.messageLink = message.url;
 
     await contestSubmission.save();
