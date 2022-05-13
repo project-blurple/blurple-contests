@@ -85,7 +85,7 @@ function onVoteEnd(contest: ContestDocument, client: Client): void {
       const message = await channel.messages.fetch(messageId).catch(() => null);
       if (!message) return void mainLogger.warn(`Could not find message ${submission.messageLink} when trying to update voting results`);
 
-      return void message.edit(generateSubmittedMessage(submission, true));
+      return message.edit(generateSubmittedMessage(submission, true));
     }));
     mainLogger.info(`Updated voting results for contest ${contest.contestId} in ${Date.now() - start}ms.`);
   });
