@@ -89,10 +89,10 @@ const command: SlashCommand = {
   async execute(interaction) {
     const name = interaction.options.getString("name", true);
     const submissionType = interaction.options.getString("submission_type", true) as "image" | "text";
-    const submissionOpenedDate = parseInt(interaction.options.getString("submission_open_date", true));
-    const submissionClosedDate = parseInt(interaction.options.getString("submission_close_date", true));
-    const votingOpenedDate = parseInt(interaction.options.getString("voting_open_date", true));
-    const votingClosedDate = parseInt(interaction.options.getString("voting_close_date", true));
+    const submissionOpenedDate = parseInt(interaction.options.getString("submission_open_date", true), 10);
+    const submissionClosedDate = parseInt(interaction.options.getString("submission_close_date", true), 10);
+    const votingOpenedDate = parseInt(interaction.options.getString("voting_open_date", true), 10);
+    const votingClosedDate = parseInt(interaction.options.getString("voting_close_date", true), 10);
     const reviewChannelId = interaction.options.getChannel("review_channel", true).id;
     const submissionChannelId = interaction.options.getChannel("submission_channel", true).id;
     const maxSubmissionsPerUser = interaction.options.getInteger("max_submissions_per_user") ?? 1;

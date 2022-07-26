@@ -35,10 +35,10 @@ const command: SlashCommand = {
 
     const name = interaction.options.getString("name") ?? contest.name;
     const submissionType = (interaction.options.getString("submission_type") as "image" | "text" | null) ?? contest.submissionType;
-    const submissionOpenedDate = parseInt(interaction.options.getString("submission_open_date") ?? String(contest.submissionOpenedDate.getTime()));
-    const submissionClosedDate = parseInt(interaction.options.getString("submission_close_date") ?? String(contest.submissionClosedDate.getTime()));
-    const votingOpenedDate = parseInt(interaction.options.getString("voting_open_date") ?? String(contest.votingOpenedDate.getTime()));
-    const votingClosedDate = parseInt(interaction.options.getString("voting_close_date") ?? String(contest.votingClosedDate.getTime()));
+    const submissionOpenedDate = parseInt(interaction.options.getString("submission_open_date") ?? String(contest.submissionOpenedDate.getTime()), 10);
+    const submissionClosedDate = parseInt(interaction.options.getString("submission_close_date") ?? String(contest.submissionClosedDate.getTime()), 10);
+    const votingOpenedDate = parseInt(interaction.options.getString("voting_open_date") ?? String(contest.votingOpenedDate.getTime()), 10);
+    const votingClosedDate = parseInt(interaction.options.getString("voting_close_date") ?? String(contest.votingClosedDate.getTime()), 10);
     const reviewChannelId = interaction.options.getChannel("review_channel")?.id ?? contest.reviewChannelId;
     const submissionChannelId = interaction.options.getChannel("submission_channel")?.id ?? contest.submissionChannelId;
     const maxSubmissionsPerUser = interaction.options.getInteger("max_submissions_per_user") ?? contest.maxSubmissionsPerUser;
