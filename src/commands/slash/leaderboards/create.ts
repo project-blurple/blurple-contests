@@ -79,7 +79,7 @@ function getScoresFromTableString(table: string): Array<[string, number]> {
 
   table.split("\n").forEach(line => {
     const [name, score] = line.split(":");
-    if (name && score) scores[name.trim()] = parseInt(score.trim());
+    if (name && score) scores[name.trim()] = parseInt(score.trim(), 10);
   });
 
   return Object.entries(scores).sort(([, a], [, b]) => b - a);
