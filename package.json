@@ -16,29 +16,29 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^9.10.1",
-    "bufferutil": "^4.0.6",
-    "chrono-node": "^2.3.9",
+    "@typegoose/typegoose": "9.10.1",
+    "bufferutil": "4.0.6",
+    "chrono-node": "2.3.9",
     "discord.js": "github:monbrey/discord.js#modals",
-    "dotenv": "^16.0.1",
+    "dotenv": "16.0.1",
     "erlpack": "github:discord/erlpack",
-    "human-date": "^1.4.0",
-    "match-sorter": "^6.3.1",
-    "mongoose": "^6.4.7",
-    "superagent": "^8.0.0",
-    "utf-8-validate": "^5.0.9",
-    "winston": "^3.8.1",
-    "winston-daily-rotate-file": "^4.7.1",
-    "zlib-sync": "^0.1.7"
+    "human-date": "1.4.0",
+    "match-sorter": "6.3.1",
+    "mongoose": "6.4.7",
+    "superagent": "8.0.0",
+    "utf-8-validate": "5.0.9",
+    "winston": "3.8.1",
+    "winston-daily-rotate-file": "4.7.1",
+    "zlib-sync": "0.1.7"
   },
   "devDependencies": {
-    "@tsconfig/node16-strictest": "^1.0.3",
-    "@types/human-date": "^1.4.2",
-    "@types/node": "^18.6.1",
-    "@types/superagent": "^4.1.15",
-    "eslint": "^8.20.0",
+    "@tsconfig/node16-strictest": "1.0.3",
+    "@types/human-date": "1.4.2",
+    "@types/node": "18.6.1",
+    "@types/superagent": "4.1.15",
+    "eslint": "8.20.0",
     "eslint-config-promise": "github:promise/eslint-config",
-    "typescript": "^4.6.4"
+    "typescript": "4.6.4"
   },
   "eslintConfig": {
     "extends": "promise"
