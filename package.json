@@ -16,7 +16,7 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@typegoose/typegoose": "9.10.1",
+    "@typegoose/typegoose": "9.11.0",
     "bufferutil": "4.0.6",
     "chrono-node": "2.3.9",
     "discord.js": "github:monbrey/discord.js#modals",
@@ -24,7 +24,7 @@
     "erlpack": "github:discord/erlpack",
     "human-date": "1.4.0",
     "match-sorter": "6.3.1",
-    "mongoose": "6.4.7",
+    "mongoose": "6.5.0",
     "superagent": "8.0.0",
     "utf-8-validate": "5.0.9",
     "winston": "3.8.1",
