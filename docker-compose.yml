@@ -9,7 +9,7 @@ services:
     volumes:
       - ./logs:/app/logs
   mongo:
-    image: mongo:5@sha256:58f91b0abfc7d84728f63faa215328bd6cda6392ac65c7b1c1e38886aa89133f
+    image: mongo:5@sha256:ef401891b08d39656c317016c29b8a190e5a05570b661b303944eda892824e85
     restart: always
     volumes:
       - ./data:/data/db
