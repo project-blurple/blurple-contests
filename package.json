@@ -20,7 +20,7 @@
     "bufferutil": "4.0.6",
     "chrono-node": "2.4.1",
     "discord.js": "github:monbrey/discord.js#modals",
-    "dotenv": "16.0.2",
+    "dotenv": "16.0.3",
     "erlpack": "github:discord/erlpack",
     "human-date": "1.4.0",
     "match-sorter": "6.3.1",
