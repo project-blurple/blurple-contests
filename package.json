@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@typegoose/typegoose": "9.11.2",
-    "bufferutil": "4.0.6",
+    "bufferutil": "4.0.7",
     "chrono-node": "2.4.1",
     "discord.js": "github:monbrey/discord.js#modals",
     "dotenv": "16.0.3",
