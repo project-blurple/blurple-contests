@@ -3,15 +3,13 @@ import type { MentionCommand } from ".";
 import { msToTime } from "../../utils/time";
 
 const command: MentionCommand = {
-  aliases: ["pong", "latency"],
+  aliases: ["pong", ""],
+  testArgs(args) { return args.length === 0; },
   async execute(message, reply) {
-    const start = Date.now();
-    const botMsg = await reply(`${Emojis.LOADING} Pinging...`);
-    return void botMsg.edit(`${Emojis.SPARKLE} Pong! Server latency is \`${Date.now() - start}ms\`, API latency is \`${Math.round(message.client.ws.ping)}ms\` and my uptime is \`${msToTime(message.client.uptime ?? 0)}\`.`);
-  },
-  testArgs(args) {
-    return args.length === 0;
+    const now = Date.now();
+    const botMessage = await reply(`${Emojis.LOADING} Pinging...`);
+    return botMessage.edit(`${Emojis.SPARKLE} Server latency is \`${Date.now() - now}ms\`, API latency is \`${Math.round(message.client.ws.ping)}ms\` and my uptime is \`${msToTime(message.client.uptime)}\`.`);
   },
 };
 
-export default command;
+export default { ...command } as const;

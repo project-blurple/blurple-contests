@@ -1,58 +1,53 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import Emojis from "../../constants/emojis";
+import { ButtonStyle, ComponentType } from "discord.js";
 import type { MentionCommand } from ".";
-import type { WebhookEditMessageOptions } from "discord.js";
+import type { MessageReplyOptions } from "discord.js";
+import { charactersPerMessage } from "../../constants/discord";
 import { components } from "../../handlers/interactions/components";
 import config from "../../config";
 import { inspect } from "util";
 import { randomBytes } from "crypto";
 import superagent from "superagent";
 
-const hastebinLink = "https://haste.but-it-actually.works";
-
 const command: MentionCommand = {
-  aliases: ["evaluate", "run", "js", "zwoop", "zwoopz", "zwoopzwoop", "rep"],
+  ownerOnly: true,
+  testArgs(args) { return args.length !== 0; },
   execute(_, reply, args) {
     try {
-      // eslint-disable-next-line no-eval
-      const evaled = eval(args.join(" "));
-      if (evaled instanceof Promise) {
-        const botMsg = reply(`${Emojis.LOADING} Running...`);
+      // eslint-disable-next-line no-eval, @typescript-eslint/no-unsafe-assignment
+      const evaluated = eval(args.join(" "));
+      if (evaluated instanceof Promise) {
+        const botMsg = reply("💨 Running...");
         const start = Date.now();
-        void evaled.then(async (result: unknown) => (await botMsg).edit(await generateMessage(result, Date.now() - start)));
-      } else void generateMessage(evaled, null).then(messageOptions => reply({ ...messageOptions, allowedMentions: { repliedUser: false }}));
+        return evaluated.then(async (result: unknown) => (await botMsg).edit(await generateMessage(result, Date.now() - start)));
+      }
+      return generateMessage(evaluated, null).then(messageOptions => reply({ ...messageOptions, allowedMentions: { repliedUser: false }}));
     } catch (err) {
-      void generateMessage(err, null, false).then(reply);
+      return generateMessage(err, null, false).then(reply);
     }
-  },
-  ownerOnly: true,
-  testArgs(args) {
-    return args.length > 0;
   },
 };
 
-export default command;
+export default { ...command } as const;
 
-async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<WebhookEditMessageOptions> {
+async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<MessageReplyOptions> {
   if (hastebin) {
-    const res = await superagent.post(`${hastebinLink}/documents`)
+    const res = await superagent.post(`${config.hastebinLink}/documents`)
       .send(inspect(result, { depth: Infinity, maxArrayLength: Infinity, maxStringLength: Infinity }))
       .catch(() => null);
 
     if (res?.ok) {
       const { key } = res.body as { key: string };
-      const url = new URL(`${hastebinLink}/${key}.js`);
+      const url = new URL(`${config.hastebinLink}/${key}.js`);
       return {
-        content: `${success ? `${Emojis.THUMBSUP} Evaluated successfully` : `${Emojis.THUMBSDOWN} JavaScript failed`}${time ? ` in ${time}ms` : ""}: ${url.toString()}`,
+        content: `${success ? "✅ Evaluated successfully" : "❌ Javascript failed"}${time ? ` in ${time}ms` : ""}: ${url.toString()}`,
         components: [],
       };
     }
 
     return {
-      content: `${success ? `${Emojis.THUMBSUP} Evaluated successfully` : `${Emojis.THUMBSDOWN} JavaScript failed`}${time ? ` in ${time}ms` : ""}: (failed to upload to hastebin)`,
+      content: `${success ? "✅ Evaluated successfully" : "❌ Javascript failed"}${time ? ` in ${time}ms` : ""}: (failed to upload to Hastebin)`,
       components: [],
     };
-
   }
 
   const content = generateContent(result, time, success);
@@ -71,12 +66,12 @@ async function generateMessage(result: unknown, time: number | null, success = t
     content,
     components: [
       {
-        type: "ACTION_ROW",
+        type: ComponentType.ActionRow,
         components: [
           {
-            type: "BUTTON",
+            type: ComponentType.Button,
             label: "Dump to Hastebin",
-            style: "PRIMARY",
+            style: ButtonStyle.Primary,
             customId: `${identifier}-hastebin`,
           },
         ],
@@ -85,14 +80,13 @@ async function generateMessage(result: unknown, time: number | null, success = t
   };
 }
 
-// the function basically tries to get as much depth as possible without going over the 2000 character limit. if it fails even with depth = 1 and maxArrayLength = 1 then send null
 function generateContent(result: unknown, time: number | null, success = true, depth = 10, maxArrayLength = 100): string | null {
   if (depth <= 0) return null;
-  let content: string | null = `${success ? `${Emojis.THUMBSUP} Evaluated successfully` : `${Emojis.THUMBSDOWN} JavaScript failed`}${time ? ` in ${time}ms` : ""}:\`\`\`ansi\n${inspect(result, { colors: true, depth, maxArrayLength })}\`\`\``;
+  let content: string | null = `${success ? "✅ Evaluated successfully" : "❌ Javascript failed"}${time ? ` in ${time}ms` : ""}:\`\`\`ansi\n${inspect(result, { colors: true, depth, maxArrayLength })}\`\`\``;
 
-  if (content.length > 2000) {
+  if (content.length > charactersPerMessage) {
     if (depth === 1 && Array.isArray(result) && maxArrayLength > 1) content = generateContent(result, time, success, depth, maxArrayLength - 1);
-    else content = generateContent(result, time, success, depth - 1);
+    else content = generateContent(result, time, success, depth - 1, maxArrayLength);
   }
   return content;
 }

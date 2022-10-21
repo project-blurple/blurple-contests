@@ -9,15 +9,11 @@ export const globalFormat = format.combine(
 
 export function createFileTransports(name: string, levels: string[]): DailyRotateFile[] {
   return levels.map(level => new DailyRotateFile({
-    level,
     filename: `logs/${name}-${level}.%DATE%`,
-    extension: ".log",
+    level,
     maxSize: "25m",
     maxFiles: "14d",
     zippedArchive: true,
+    extension: ".log",
   }));
 }
-
-export * from "./mongoose";
-export * from "./discord";
-export * from "./main";

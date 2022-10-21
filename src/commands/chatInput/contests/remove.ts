@@ -1,13 +1,14 @@
-import { Contest } from "../../../database";
+import { ApplicationCommandOptionType } from "discord.js";
+import type { ChatInputCommand } from "..";
+import { Contest } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
-import type { SlashCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "Remove a contest",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
       autocomplete: true,
@@ -33,4 +34,4 @@ const command: SlashCommand = {
   },
 };
 
-export default command;
+export default { ...command } as const;

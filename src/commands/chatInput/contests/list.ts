@@ -1,10 +1,10 @@
-import { Contest } from "../../../database";
-import type { ContestDocument } from "../../../database";
+import type { APIEmbed } from "discord.js";
+import type { ChatInputCommand } from "..";
+import { Contest } from "../../../database/models/Contest.model";
+import type { ContestDocument } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
-import type { MessageEmbedOptions } from "discord.js";
-import type { SlashCommand } from "..";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "List all contests",
   async execute(interaction) {
     const contests = await Contest.find();
@@ -24,7 +24,7 @@ const command: SlashCommand = {
 
 export default command;
 
-export function contestToEmbed(contest: ContestDocument): MessageEmbedOptions {
+export function contestToEmbed(contest: ContestDocument): APIEmbed {
   const submissionOpen = Math.round(contest.submissionOpenedDate.getTime() / 1000);
   const submissionClose = Math.round(contest.submissionClosedDate.getTime() / 1000);
   const votingOpen = Math.round(contest.votingOpenedDate.getTime() / 1000);

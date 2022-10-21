@@ -1,78 +1,76 @@
-/* eslint-disable max-lines-per-function */
-import { Constants, GuildMember } from "discord.js";
-import type { MessageEditOptions, MessageOptions, TextBasedChannel, TextInputComponentOptions } from "discord.js";
-import { getModalTextInput, modals } from "../../../handlers/interactions/modals";
+import { ApplicationCommandOptionType, ButtonStyle, ChannelType, Colors, ComponentType, TextInputStyle } from "discord.js";
+import type { MessageCreateOptions, MessageEditOptions, PrivateThreadChannel, PublicThreadChannel, TextChannel } from "discord.js";
+import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
+import type { ChatInputCommand } from "..";
 import Emojis from "../../../constants/emojis";
-import { Leaderboard } from "../../../database";
-import type { LeaderboardDocument } from "../../../database";
-import type { SlashCommand } from "..";
+import { Leaderboard } from "../../../database/models/Leaderboard.model";
+import type { LeaderboardDocument } from "../../../database/models/Leaderboard.model";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "Create a leaderboard",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "name",
       description: "The name of the contest",
       required: true,
     },
     {
-      type: "CHANNEL",
+      type: ApplicationCommandOptionType.Channel,
       name: "post_to_channel",
       description: "The channel to post the leaderboard to",
-      channelTypes: ["GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_TEXT"],
+      channelTypes: [
+        ChannelType.PrivateThread,
+        ChannelType.PublicThread,
+        ChannelType.GuildText,
+      ],
       required: true,
     },
   ],
   execute(interaction) {
-    const name = interaction.options.getString("name", true);
-    const channel = interaction.options.getChannel("post_to_channel", true) as TextBasedChannel;
+    const channel = interaction.options.getChannel("post_to_channel", true) as PrivateThreadChannel | PublicThreadChannel | TextChannel;
+
+    modals.set(`${interaction.id}:create-leaderboard`, {
+      async callback(modal) {
+        const name = getModalTextInput(modal.components, "name")!;
+        const table = getModalTextInput(modal.components, "table") ?? "";
+
+        const leaderboard = new Leaderboard({ name, table });
+        const message = await channel.send(generateMessage(leaderboard));
+        leaderboard.messageLink = message.url;
+
+        await leaderboard.save();
+        return void modal.reply(`${Emojis.THUMBSUP} Leaderboard has been created successfully, go [here](${leaderboard.messageLink}) to view it and manage it.`);
+      },
+    });
 
     void interaction.showModal({
       title: "Create Leaderboard",
-      customId: `${interaction.id}-create-leaderboard`,
-      components: ([
-        {
-          type: "TEXT_INPUT",
-          style: "SHORT",
+      customId: `${interaction.id}:create-leaderboard`,
+      components: [
+        createModalTextInput({
+          style: TextInputStyle.Short,
           customId: "name",
           label: "Name",
           placeholder: "Karaoke Contest Leaderboard",
-          value: name,
+          value: interaction.options.getString("name", true),
           required: true,
-        },
-        {
-          type: "TEXT_INPUT",
-          style: "PARAGRAPH",
+        }),
+        createModalTextInput({
+          style: TextInputStyle.Paragraph,
           customId: "table",
           label: "Scores (multiline)",
           placeholder: "Wumpus: 2\nNelly: 1\nClyde: 3",
           required: false,
-        },
-      ] as TextInputComponentOptions[]).filter(Boolean).map(component => ({
-        type: "ACTION_ROW",
-        components: [component],
-      })),
-    });
-
-    return void modals.set(`${interaction.id}-create-leaderboard`, async modal => {
-      const table = getModalTextInput(modal.components, "table")!;
-
-      const leaderboard = new Leaderboard({ name, table });
-      const message = await channel.send(generateMessage(leaderboard));
-      leaderboard.messageLink = message.url;
-
-      await leaderboard.save();
-      return modal.reply({
-        content: `${Emojis.THUMBSUP} Leaderboard has been created successfully, go [here](${leaderboard.messageLink}) to view it and manage it.`,
-      });
+        }),
+      ],
     });
   },
 };
 
-export default command;
+export default { ...command } as const;
 
 function getScoresFromTableString(table: string): Array<[string, number]> {
   const scores: Record<string, number> = {};
@@ -85,7 +83,7 @@ function getScoresFromTableString(table: string): Array<[string, number]> {
   return Object.entries(scores).sort(([, a], [, b]) => b - a);
 }
 
-function generateMessage(leaderboard: LeaderboardDocument): Omit<MessageEditOptions, "embeds" | "flags"> & Pick<MessageOptions, "embeds"> {
+function generateMessage(leaderboard: LeaderboardDocument): Omit<MessageEditOptions, "content" | "embeds" | "flags"> & Pick<MessageCreateOptions, "content" | "embeds"> {
   const scores = getScoresFromTableString(leaderboard.table ?? "");
 
   return {
@@ -108,17 +106,17 @@ function generateMessage(leaderboard: LeaderboardDocument): Omit<MessageEditOpti
             inline: true,
           },
         ],
-        color: Constants.Colors.BLURPLE,
+        color: Colors.Blurple,
         footer: { text: leaderboard.leaderboardId },
       },
     ],
     components: [
       {
-        type: "ACTION_ROW",
+        type: ComponentType.ActionRow,
         components: [
           {
-            type: "BUTTON",
-            style: "SECONDARY",
+            type: ComponentType.Button,
+            style: ButtonStyle.Secondary,
             customId: "leaderboard-edit",
             emoji: Emojis.HAMMER,
           },
@@ -132,10 +130,7 @@ components.set("leaderboard-edit", {
   type: "BUTTON",
   allowedUsers: "all",
   async callback(interaction) {
-    if (!config.adminRoles.some(allowedRole => {
-      const roles = interaction.member instanceof GuildMember ? interaction.member.roles.cache.map(role => role.id) : interaction.member?.roles ?? [];
-      return roles.includes(allowedRole);
-    })) {
+    if (!config.adminRoles.some(allowedRole => interaction.member.roles.cache.has(allowedRole))) {
       return void interaction.reply({
         content: `${Emojis.ANGER} You don't have permission to do that.`,
         ephemeral: true,
@@ -155,38 +150,36 @@ components.set("leaderboard-edit", {
 
     void interaction.showModal({
       title: "Edit Leaderboard",
-      customId: `${interaction.id}-edit-leaderboard`,
-      components: ([
-        {
-          type: "TEXT_INPUT",
-          style: "SHORT",
+      customId: `${interaction.id}:edit-leaderboard`,
+      components: [
+        createModalTextInput({
+          style: TextInputStyle.Short,
           customId: "name",
           label: "Name",
           placeholder: "Karaoke Contest Leaderboard",
           value: leaderboard.name,
           required: true,
-        },
-        {
-          type: "TEXT_INPUT",
-          style: "PARAGRAPH",
+        }),
+        createModalTextInput({
+          style: TextInputStyle.Paragraph,
           customId: "table",
           label: "Scores (multiline)",
           placeholder: "Wumpus: 2\nNelly: 1\nClyde: 3",
-          value: leaderboard.table,
+          ...leaderboard.table && { value: leaderboard.table },
           required: false,
-        },
-      ] as TextInputComponentOptions[]).filter(Boolean).map(component => ({
-        type: "ACTION_ROW",
-        components: [component],
-      })),
+        }),
+      ],
     });
 
-    return void modals.set(`${interaction.id}-edit-leaderboard`, modal => {
-      const table = getModalTextInput(modal.components, "table")!;
-      leaderboard.table = table;
-      void leaderboard.save();
+    return void modals.set(`${interaction.id}:edit-leaderboard`, {
+      callback(modal) {
+        const table = getModalTextInput(modal.components, "table")!;
+        leaderboard.table = table;
+        void leaderboard.save();
 
-      return void modal.update(generateMessage(leaderboard));
+        if (!modal.isFromMessage()) return;
+        return void modal.update(generateMessage(leaderboard));
+      },
     });
   },
 });

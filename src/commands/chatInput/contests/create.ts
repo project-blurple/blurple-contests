@@ -1,22 +1,23 @@
-import { Contest } from "../../../database";
+import { ApplicationCommandOptionType, ChannelType } from "discord.js";
+import type { ChatInputCommand } from "..";
+import { Contest } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
-import type { SlashCommand } from "..";
 import { contestToEmbed } from "./list";
 import dateAutocomplete from "../../../constants/autocompletes/date";
-import { setupContestInteractions } from "../../../modules/contestSubmissions/setupContestInteractions";
-import { setupJobs } from "../../../modules/contestSubmissions";
+import setupContestInteractions from "../../../handlers/contestSubmissions/setupContestInteractions";
+import { setupJobs } from "../../../handlers/contestSubmissions";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "Create a new contest",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "name",
       description: "The name of the contest",
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "submission_type",
       description: "The type of entry (image or text)",
       choices: [
@@ -26,54 +27,62 @@ const command: SlashCommand = {
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "submission_open_date",
       description: "The date the submissions are opened (so people can submit)",
       autocomplete: true,
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "submission_close_date",
       description: "The date the submissions are closed (so people can't submit anymore)",
       autocomplete: true,
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "voting_open_date",
       description: "The date the voting is opened (so people can vote)",
       autocomplete: true,
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "voting_close_date",
       description: "The date the voting is closed (so people can't vote anymore)",
       autocomplete: true,
       required: true,
     },
     {
-      type: "CHANNEL",
+      type: ApplicationCommandOptionType.Channel,
       name: "review_channel",
       description: "The channel to post submissions to for review",
-      channelTypes: ["GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_TEXT"],
+      channelTypes: [
+        ChannelType.PrivateThread,
+        ChannelType.PublicThread,
+        ChannelType.GuildText,
+      ],
       required: true,
     },
     {
-      type: "CHANNEL",
+      type: ApplicationCommandOptionType.Channel,
       name: "submission_channel",
       description: "The channel to post submissions to",
-      channelTypes: ["GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_TEXT"],
+      channelTypes: [
+        ChannelType.PrivateThread,
+        ChannelType.PublicThread,
+        ChannelType.GuildText,
+      ],
       required: true,
     },
     {
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       name: "max_submissions_per_user",
       description: "The number of submissions allowed per user",
     },
     {
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       name: "max_votes_per_user",
       description: "The number of votes allowed per user",
     },

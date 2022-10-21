@@ -1,15 +1,16 @@
-/* eslint-disable max-lines-per-function */
-import { Contest, ContestSubmission, ContestVoteEntry } from "../../../database";
-import type { MessageEditOptions, MessageOptions } from "discord.js";
-import type { ContestSubmissionDocument } from "../../../database";
+import { ButtonStyle, ComponentType } from "discord.js";
+import type { MessageCreateOptions, MessageEditOptions } from "discord.js";
+import { Contest } from "../../../database/models/Contest.model";
+import { ContestSubmission } from "../../../database/models/ContestSubmission.model";
+import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
+import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
 import Emojis from "../../../constants/emojis";
-import { GuildMember } from "discord.js";
-import { components } from "../../../handlers/interactions/components";
+import { components } from "../../interactions/components";
 import config from "../../../config";
 import { generateSubmissionEmbed } from ".";
-import { mainLogger } from "../../../utils/logger";
+import { mainLogger } from "../../../utils/logger/main";
 
-export function generateSubmittedMessage(submission: ContestSubmissionDocument, votingEnd = false): Omit<MessageEditOptions, "embeds" | "flags"> & Pick<MessageOptions, "embeds"> {
+export function generateSubmittedMessage(submission: ContestSubmissionDocument, votingEnd = false): Omit<MessageEditOptions, "content" | "embeds" | "flags"> & Pick<MessageCreateOptions, "content" | "embeds"> {
   return {
     content: `Submission by <@${submission.authorId}>.`,
     embeds: [generateSubmissionEmbed(submission)],
@@ -18,17 +19,17 @@ export function generateSubmittedMessage(submission: ContestSubmissionDocument, 
       [] :
       [
         {
-          type: "ACTION_ROW",
+          type: ComponentType.ActionRow,
           components: [
             {
-              type: "BUTTON",
-              style: "PRIMARY",
+              type: ComponentType.Button,
+              style: ButtonStyle.Primary,
               customId: "contest-submission-vote",
               label: "Vote",
             },
             {
-              type: "BUTTON",
-              style: "SECONDARY",
+              type: ComponentType.Button,
+              style: ButtonStyle.Secondary,
               customId: "contest-submission-admin",
               emoji: Emojis.HAMMER,
             },
@@ -95,11 +96,11 @@ components.set("contest-submission-vote", {
         ephemeral: true,
         components: [
           {
-            type: "ACTION_ROW",
+            type: ComponentType.ActionRow,
             components: [
               {
-                type: "BUTTON",
-                style: "DANGER",
+                type: ComponentType.Button,
+                style: ButtonStyle.Danger,
                 customId: `${interaction.id}-remove-vote`,
                 label: "Remove this vote",
               },
@@ -134,10 +135,7 @@ components.set("contest-submission-admin", {
   type: "BUTTON",
   allowedUsers: "all",
   async callback(interaction) {
-    if (!config.adminRoles.some(allowedRole => {
-      const roles = interaction.member instanceof GuildMember ? interaction.member.roles.cache.map(role => role.id) : interaction.member?.roles ?? [];
-      return roles.includes(allowedRole);
-    })) {
+    if (!config.adminRoles.some(allowedRole => interaction.member.roles.cache.has(allowedRole))) {
       return void interaction.reply({
         content: `${Emojis.ANGER} You don't have permission to do that.`,
         ephemeral: true,
@@ -177,11 +175,11 @@ components.set("contest-submission-admin", {
       ].join("\n\n"),
       components: [
         {
-          type: "ACTION_ROW",
+          type: ComponentType.ActionRow,
           components: [
             {
-              type: "BUTTON",
-              style: "DANGER",
+              type: ComponentType.Button,
+              style: ButtonStyle.Danger,
               customId: `${interaction.id}-remove-submission`,
               label: "Delete submission",
             },

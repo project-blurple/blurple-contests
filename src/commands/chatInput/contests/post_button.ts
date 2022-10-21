@@ -1,23 +1,28 @@
+import { ApplicationCommandOptionType, ButtonStyle, ChannelType, ComponentType } from "discord.js";
+import type { ChatInputCommand } from "..";
 import Emojis from "../../../constants/emojis";
-import type { SlashCommand } from "..";
 import type { TextBasedChannel } from "discord.js";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "Post submission buttons in a channel",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
       autocomplete: true,
       required: true,
     },
     {
-      type: "CHANNEL",
+      type: ApplicationCommandOptionType.Channel,
       name: "channel",
       description: "The channel to post the button to",
-      channelTypes: ["GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_TEXT"],
+      channelTypes: [
+        ChannelType.PrivateThread,
+        ChannelType.PublicThread,
+        ChannelType.GuildText,
+      ],
       required: true,
     },
   ],
@@ -31,11 +36,11 @@ const command: SlashCommand = {
     const message = await channel.send({
       components: [
         {
-          type: "ACTION_ROW",
+          type: ComponentType.ActionRow,
           components: [
             {
-              type: "BUTTON",
-              style: "PRIMARY",
+              type: ComponentType.Button,
+              style: ButtonStyle.Primary,
               customId: `submit-contest-${contestId}`,
               label: "Submit",
             },
@@ -50,4 +55,4 @@ const command: SlashCommand = {
   },
 };
 
-export default command;
+export default { ...command } as const;

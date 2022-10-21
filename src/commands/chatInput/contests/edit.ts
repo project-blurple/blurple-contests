@@ -1,18 +1,18 @@
-/* eslint-disable max-lines-per-function */
-import { Contest } from "../../../database";
+import { ApplicationCommandOptionType } from "discord.js";
+import type { ChatInputCommand } from "..";
+import { Contest } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
-import type { SlashCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 import { contestToEmbed } from "./list";
 import createCommand from "./create";
-import { setupContestInteractions } from "../../../modules/contestSubmissions/setupContestInteractions";
-import { setupJobs } from "../../../modules/contestSubmissions";
+import setupContestInteractions from "../../../handlers/contestSubmissions/setupContestInteractions";
+import { setupJobs } from "../../../handlers/contestSubmissions";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "Edit a contest (use optional options)",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
       autocomplete: true,

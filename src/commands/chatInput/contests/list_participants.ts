@@ -1,22 +1,22 @@
-/* eslint-disable max-lines-per-function */
-import { ContestSubmission, ContestSubmissionStatus, ContestVoteEntry } from "../../../database";
-import { Constants } from "discord.js";
+import { ApplicationCommandOptionType, Colors } from "discord.js";
+import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
+import type { ChatInputCommand } from "..";
+import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
 import Emojis from "../../../constants/emojis";
-import type { SlashCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 
-const command: SlashCommand = {
+const command: ChatInputCommand = {
   description: "List participants of a contest",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
       autocomplete: true,
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "filter",
       description: "Filter which participants you want to get sent",
       choices: [
@@ -28,7 +28,7 @@ const command: SlashCommand = {
       required: true,
     },
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "format",
       description: "Format the output",
       choices: [
@@ -92,7 +92,7 @@ const command: SlashCommand = {
               inline: true,
             },
           ],
-          color: Constants.Colors.BLURPLE,
+          color: Colors.Blurple,
         })),
       });
     }

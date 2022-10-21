@@ -1,19 +1,18 @@
-/* eslint-disable max-lines-per-function */
 import type { Client, TextBasedChannel } from "discord.js";
-import { Contest, ContestSubmission, ContestSubmissionStatus } from "../../database";
-import type { ContestDocument } from "../../database";
+import { ContestSubmission, ContestSubmissionStatus } from "../../database/models/ContestSubmission.model";
+import { Contest } from "../../database/models/Contest.model";
+import type { ContestDocument } from "../../database/models/Contest.model";
 import Emojis from "../../constants/emojis";
-import type { Module } from "..";
 import { generateSubmittedMessage } from "./messageGenerators";
-import { mainLogger } from "../../utils/logger";
-import { setupContestInteractions } from "./setupContestInteractions";
+import { mainLogger } from "../../utils/logger/main";
+import setupContestInteractions from "./setupContestInteractions";
 
-export default (async client => {
-  await Contest.find().then(contests => contests.forEach(contest => {
+export default function handleContestSubmissions(client: Client<true>): void {
+  void Contest.find().then(contests => contests.forEach(contest => {
     setupContestInteractions(contest);
     setupJobs(contest, client);
   }));
-}) as Module;
+}
 
 const jobMap = new Map<string, NodeJS.Timeout[]>();
 const timeoutOverflow = 2 ** 31 - 1;

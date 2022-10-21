@@ -1,8 +1,13 @@
-import type { Awaitable, Message, MessageOptions } from "discord.js";
+import type { Awaitable, Message, MessageReplyOptions } from "discord.js";
 
 export interface MentionCommand {
   aliases?: [string, ...string[]];
   ownerOnly?: true;
-  execute(message: Message, reply: (contentOrOptions: MessageOptions | string) => Promise<Message>, args: string[]): Awaitable<void>;
   testArgs(args: string[]): boolean;
+  execute(message: Message<true>, reply: (options: MessageReplyOptions | string) => Promise<Message>, args: string[]): Awaitable<Message>;
 }
+
+export const quickResponses: Array<[
+  triggers: [string, ...string[]],
+  response: string,
+]> = [];

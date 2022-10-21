@@ -1,28 +1,26 @@
-import type { Awaitable, ButtonInteraction, MessageComponentInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
-import { mainLogger } from "../../utils/logger";
+import type { Awaitable, ButtonInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
+import { mainLogger } from "../../utils/logger/main";
 
-interface ButtonComponent {
-  type: "BUTTON";
-  callback(interaction: ButtonInteraction): Awaitable<void>;
-}
-
-interface SelectMenuComponent {
+interface SelectMenuComponentDetails {
   type: "SELECT_MENU";
-  callback(interaction: SelectMenuInteraction): Awaitable<void>;
+  callback(interaction: SelectMenuInteraction<"cached">): Awaitable<void>;
 }
 
-type Component = {
-  allowedUsers: Snowflake[] | "all";
-} & (ButtonComponent | SelectMenuComponent);
+interface ButtonComponentDetails {
+  type: "BUTTON";
+  callback(interaction: ButtonInteraction<"cached">): Awaitable<void>;
+}
 
-export const components = new Map<string, Component>();
+type ComponentInteractionDetails = {
+  allowedUsers: "all" | [Snowflake, ...Snowflake[]];
+} & (ButtonComponentDetails | SelectMenuComponentDetails);
 
-export default (interaction: MessageComponentInteraction): void => {
+export const components = new Map<string, ComponentInteractionDetails>();
+
+export default function componentHandler(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">): void {
   const component = components.get(interaction.customId);
-  if (component) {
-    if (component.allowedUsers !== "all" && !component.allowedUsers.includes(interaction.user.id)) return;
+  if (!component) return void mainLogger.info(`Component interaction ${interaction.customId} not found for interaction ${interaction.id}, channel ${interaction.channelId}, guild ${interaction.guildId}`);
 
-    if (component.type === "BUTTON" && interaction.isButton()) void component.callback(interaction);
-    if (component.type === "SELECT_MENU" && interaction.isSelectMenu()) void component.callback(interaction);
-  } else mainLogger.warn(`Component ${interaction.customId} not found.`);
-};
+  if (component.allowedUsers !== "all" && !component.allowedUsers.includes(interaction.user.id)) return;
+  void component.callback(interaction as never);
+}
