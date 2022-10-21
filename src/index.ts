@@ -2,11 +2,11 @@ import { Client, IntentsBitField, Options, Partials } from "discord.js";
 import config from "./config";
 import { connection } from "./database";
 import { discordLogger } from "./utils/logger/discord";
-import { inspect } from "util";
-import { mainLogger } from "./utils/logger/main";
 import handleContestSubmissions from "./handlers/contestSubmissions";
 import handleInteractions from "./handlers/interactions";
 import handleMentionCommands from "./handlers/mentionCommands";
+import { inspect } from "util";
+import { mainLogger } from "./utils/logger/main";
 
 const client = new Client({
   allowedMentions: { parse: [], users: [], roles: [], repliedUser: true },
