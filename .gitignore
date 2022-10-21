@@ -1,5 +1,5 @@
 /build
-/data
+/database
 /logs
 /node_modules
 /.env

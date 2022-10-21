@@ -1,6 +1,4 @@
-/.github
 /build
-/data
-/docs
+/database
 /logs
 /node_modules
