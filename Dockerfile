@@ -1,12 +1,29 @@
-FROM node:16-alpine@sha256:2175727cef5cad4020cb77c8c101d56ed41d44fbe9b1157c54f820e3d345eab1
-RUN apk add dumb-init g++ gcc make python3
+# compile typescript to normal javascript
+
+FROM node:18-alpine@sha256:828424b660b8274e7dcf6c7447f014406610facf663f38df92c3162a3d29a1db AS builder
+RUN apk --no-cache add dumb-init g++ gcc make python3
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm i
+RUN npm ci
 
-COPY . ./
+COPY tsconfig.json ./
+COPY ./src ./src
 RUN npm run build
+
+
+# production image
+
+FROM node:18-alpine@sha256:828424b660b8274e7dcf6c7447f014406610facf663f38df92c3162a3d29a1db AS final
+RUN apk --no-cache add dumb-init g++ gcc make python3
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY .env ./.env
+COPY --from=builder /app/build ./build
 
 CMD ["dumb-init", "npm", "start"]

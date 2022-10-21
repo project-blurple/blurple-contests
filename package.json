@@ -32,9 +32,9 @@
     "zlib-sync": "0.1.7"
   },
   "devDependencies": {
-    "@tsconfig/node16-strictest": "1.0.4",
+    "@tsconfig/node18-strictest": "1.0.0",
     "@types/human-date": "1.4.2",
-    "@types/node": "18.6.1",
+    "@types/node": "16.11.68",
     "@types/superagent": "4.1.15",
     "eslint": "8.25.0",
     "eslint-config-promise": "github:promise/eslint-config",
