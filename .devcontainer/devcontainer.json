@@ -13,8 +13,6 @@
 		}
 	},
 
-	"forwardPorts": [9123],
-
 	"otherPortsAttributes": {
 		"onAutoForward": "ignore"
 	},
