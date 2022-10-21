@@ -4,6 +4,9 @@ import { connection } from "./database";
 import { discordLogger } from "./utils/logger/discord";
 import { inspect } from "util";
 import { mainLogger } from "./utils/logger/main";
+import handleContestSubmissions from "./handlers/contestSubmissions";
+import handleInteractions from "./handlers/interactions";
+import handleMentionCommands from "./handlers/mentionCommands";
 
 const client = new Client({
   allowedMentions: { parse: [], users: [], roles: [], repliedUser: true },
@@ -31,7 +34,9 @@ const client = new Client({
 client.once("ready", trueClient => {
   mainLogger.info(`Ready as ${trueClient.user.tag}!`);
 
-
+  handleContestSubmissions(trueClient);
+  handleInteractions(trueClient);
+  handleMentionCommands(trueClient);
 });
 
 // discord debug logging
