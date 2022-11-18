@@ -37,7 +37,7 @@
     "@types/human-date": "1.4.2",
     "@types/node": "18.11.9",
     "@types/superagent": "4.1.15",
-    "eslint": "8.27.0",
+    "eslint": "8.28.0",
     "eslint-config-promise": "github:promise/eslint-config",
     "typescript": "4.6.4"
   },
