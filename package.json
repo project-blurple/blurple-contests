@@ -19,7 +19,7 @@
   "dependencies": {
     "@typegoose/typegoose": "9.11.2",
     "bufferutil": "4.0.7",
-    "chrono-node": "2.4.1",
+    "chrono-node": "2.4.2",
     "discord.js": "14.6.0",
     "dotenv": "16.0.3",
     "erlpack": "github:discord/erlpack",
