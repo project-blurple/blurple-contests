@@ -1,23 +1,21 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import type { ChatInputCommand } from "..";
 import { Contest } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
+import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 
-const command: ChatInputCommand = {
+export default {
+  name: "remove",
   description: "Remove a contest",
   options: [
     {
       type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
-      autocomplete: true,
+      autocomplete: contestAutocomplete,
       required: true,
     },
   ],
-  autocompletes: {
-    contest: contestAutocomplete,
-  },
   async execute(interaction) {
     const contest = await Contest.findOne({ contestId: interaction.options.getString("contest", true) });
     if (!contest) {
@@ -32,6 +30,4 @@ const command: ChatInputCommand = {
       content: `${Emojis.THUMBSUP} Contest removed.`,
     });
   },
-};
-
-export default { ...command } as const;
+} satisfies SecondLevelChatInputCommand;

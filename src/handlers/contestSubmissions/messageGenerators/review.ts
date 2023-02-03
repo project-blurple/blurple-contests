@@ -5,12 +5,11 @@ import { createModalTextInput, getModalTextInput, modals } from "../../interacti
 import { Contest } from "../../../database/models/Contest.model";
 import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
 import Emojis from "../../../constants/emojis";
-import { components } from "../../interactions/components";
+import { buttonComponents } from "../../interactions/components";
 import { generateSubmissionEmbed } from ".";
 import { generateSubmittedMessage } from "./submitted";
 
-components.set("contest-review-approve", {
-  type: "BUTTON",
+buttonComponents.set("contest-review-approve", {
   allowedUsers: "all",
   async callback(interaction) {
     const interactionMessage = await interaction.channel!.messages.fetch(interaction.message.id).catch(() => null);
@@ -36,8 +35,7 @@ components.set("contest-review-approve", {
   },
 });
 
-components.set("contest-review-reject", {
-  type: "BUTTON",
+buttonComponents.set("contest-review-reject", {
   allowedUsers: "all",
   async callback(interaction) {
     const interactionMessage = await interaction.channel!.messages.fetch(interaction.message.id).catch(() => null);
@@ -66,28 +64,27 @@ components.set("contest-review-reject", {
       ],
     });
 
-    return void modals.set(`contest-review-reject-modal-${contestId}-${submissionId}`, {
-      async callback(modal) {
-        const reason = getModalTextInput(modal.components, "reason")!;
+    return void modals.set(`contest-review-reject-modal-${contestId}-${submissionId}`, async modal => {
+      const reason = getModalTextInput(modal.components, "reason")!;
 
-        const contestSubmission = await ContestSubmission.findOne({ contestId, submissionId });
-        if (!contestSubmission) {
-          return void modal.reply({
-            content: `${Emojis.ANGER} An unknown error occurred when trying to approve this submission. Looks like the submission is no longer registered...`,
-            ephemeral: true,
-          });
-        }
+      const contestSubmission = await ContestSubmission.findOne({ contestId, submissionId });
+      if (!contestSubmission) {
+        return void modal.reply({
+          content: `${Emojis.ANGER} An unknown error occurred when trying to approve this submission. Looks like the submission is no longer registered...`,
+          ephemeral: true,
+        });
+      }
 
-        contestSubmission.status = ContestSubmissionStatus.REJECTED;
-        contestSubmission.rejectReason = reason;
-        contestSubmission.messageLink = "deleted";
+      contestSubmission.status = ContestSubmissionStatus.REJECTED;
+      contestSubmission.rejectReason = reason;
+      contestSubmission.messageLink = "deleted";
 
-        await contestSubmission.save();
-        await modal.deferUpdate({});
-        void interactionMessage?.delete();
+      await contestSubmission.save();
+      await modal.deferUpdate({});
+      void interactionMessage?.delete();
 
-        return void modal.client.users.fetch(contestSubmission.authorId).then(user => user.send({
-          content:
+      return void modal.client.users.fetch(contestSubmission.authorId).then(user => user.send({
+        content:
           [
             `${Emojis.ANGER} Your submission to the contest **${contest.name}** was rejected, reason being:`,
             reason
@@ -96,10 +93,9 @@ components.set("contest-review-reject", {
               .join("\n"),
             "Send <@536491357322346499> (`BlurpleMail#8368`) a direct message for more information about its rejection if you feel that the decision is unfair.",
           ].join("\n"),
-          embeds: [generateSubmissionEmbed(contestSubmission)],
-        }).catch())
-          .catch();
-      },
+        embeds: [generateSubmissionEmbed(contestSubmission)],
+      }).catch())
+        .catch();
     });
   },
 });

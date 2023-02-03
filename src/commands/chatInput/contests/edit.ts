@@ -1,29 +1,26 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import type { ChatInputCommand } from "..";
 import { Contest } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
+import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 import { contestToEmbed } from "./list";
 import createCommand from "./create";
 import setupContestInteractions from "../../../handlers/contestSubmissions/setupContestInteractions";
 import { setupJobs } from "../../../handlers/contestSubmissions";
 
-const command: ChatInputCommand = {
+export default {
+  name: "edit",
   description: "Edit a contest (use optional options)",
   options: [
     {
       type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
-      autocomplete: true,
+      autocomplete: contestAutocomplete,
       required: true,
     },
-    ...createCommand.options!.map(option => ({ ...option, required: false })),
+    ...createCommand.options.map(option => ({ ...option, required: false })),
   ],
-  autocompletes: {
-    contest: contestAutocomplete,
-    ...createCommand.autocompletes,
-  },
   async execute(interaction) {
     const contest = await Contest.findOne({ contestId: interaction.options.getString("contest", true) });
     if (!contest) {
@@ -83,6 +80,4 @@ const command: ChatInputCommand = {
       embeds: [contestToEmbed(contest)],
     });
   },
-};
-
-export default command;
+} satisfies SecondLevelChatInputCommand;

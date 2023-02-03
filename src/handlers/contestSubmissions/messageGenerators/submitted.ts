@@ -5,7 +5,7 @@ import { ContestSubmission } from "../../../database/models/ContestSubmission.mo
 import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
 import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
 import Emojis from "../../../constants/emojis";
-import { components } from "../../interactions/components";
+import { buttonComponents } from "../../interactions/components";
 import config from "../../../config";
 import { generateSubmissionEmbed } from ".";
 import { mainLogger } from "../../../utils/logger/main";
@@ -39,8 +39,7 @@ export function generateSubmittedMessage(submission: ContestSubmissionDocument, 
   };
 }
 
-components.set("contest-submission-vote", {
-  type: "BUTTON",
+buttonComponents.set("contest-submission-vote", {
   allowedUsers: "all",
   async callback(interaction) {
     const message = await interaction.channel!.messages.fetch(interaction.message.id).catch(() => null);
@@ -82,8 +81,7 @@ components.set("contest-submission-vote", {
     const registeredVote = votes.find(vote => vote.submissionId === submissionId);
 
     if (registeredVote) {
-      components.set(`${interaction.id}-remove-vote`, {
-        type: "BUTTON",
+      buttonComponents.set(`${interaction.id}-remove-vote`, {
         allowedUsers: [interaction.user.id],
         async callback(buttonInteraction) {
           await registeredVote.remove();
@@ -131,8 +129,7 @@ components.set("contest-submission-vote", {
   },
 });
 
-components.set("contest-submission-admin", {
-  type: "BUTTON",
+buttonComponents.set("contest-submission-admin", {
   allowedUsers: "all",
   async callback(interaction) {
     if (!config.adminRoles.some(allowedRole => interaction.member.roles.cache.has(allowedRole))) {
@@ -157,8 +154,7 @@ components.set("contest-submission-admin", {
 
     const voteEntries = await ContestVoteEntry.find({ contestId, submissionId });
 
-    components.set(`${interaction.id}-remove-submission`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}-remove-submission`, {
       allowedUsers: [interaction.user.id],
       async callback(buttonInteraction) {
         mainLogger.info(`Staff member ${buttonInteraction.user.tag} (${buttonInteraction.user.id}) removed submission ${submissionId} from contest ${contestId}`);

@@ -31,6 +31,4 @@ export default {
   guildId: String(process.env["GUILD_ID"]),
 
   adminRoles: (process.env["ADMIN_ROLES"] ?? "").split(","),
-
-  hastebinLink: process.env["HASTEBIN_LINK"] ?? "https://hastebin.but-it-actually.works",
 } as const;

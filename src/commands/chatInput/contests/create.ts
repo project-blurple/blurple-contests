@@ -1,13 +1,14 @@
 import { ApplicationCommandOptionType, ChannelType } from "discord.js";
-import type { ChatInputCommand } from "..";
 import { Contest } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
+import type { SecondLevelChatInputCommand } from "..";
 import { contestToEmbed } from "./list";
 import dateAutocomplete from "../../../constants/autocompletes/date";
 import setupContestInteractions from "../../../handlers/contestSubmissions/setupContestInteractions";
 import { setupJobs } from "../../../handlers/contestSubmissions";
 
-const command: ChatInputCommand = {
+export default {
+  name: "create",
   description: "Create a new contest",
   options: [
     {
@@ -30,28 +31,28 @@ const command: ChatInputCommand = {
       type: ApplicationCommandOptionType.String,
       name: "submission_open_date",
       description: "The date the submissions are opened (so people can submit)",
-      autocomplete: true,
+      autocomplete: dateAutocomplete,
       required: true,
     },
     {
       type: ApplicationCommandOptionType.String,
       name: "submission_close_date",
       description: "The date the submissions are closed (so people can't submit anymore)",
-      autocomplete: true,
+      autocomplete: dateAutocomplete,
       required: true,
     },
     {
       type: ApplicationCommandOptionType.String,
       name: "voting_open_date",
       description: "The date the voting is opened (so people can vote)",
-      autocomplete: true,
+      autocomplete: dateAutocomplete,
       required: true,
     },
     {
       type: ApplicationCommandOptionType.String,
       name: "voting_close_date",
       description: "The date the voting is closed (so people can't vote anymore)",
-      autocomplete: true,
+      autocomplete: dateAutocomplete,
       required: true,
     },
     {
@@ -87,14 +88,6 @@ const command: ChatInputCommand = {
       description: "The number of votes allowed per user",
     },
   ],
-  autocompletes: {
-    /* eslint-disable camelcase */
-    submission_open_date: dateAutocomplete,
-    submission_close_date: dateAutocomplete,
-    voting_open_date: dateAutocomplete,
-    voting_close_date: dateAutocomplete,
-    /* eslint-enable camelcase */
-  },
   async execute(interaction) {
     const name = interaction.options.getString("name", true);
     const submissionType = interaction.options.getString("submission_type", true) as "image" | "text";
@@ -146,6 +139,4 @@ const command: ChatInputCommand = {
       embeds: [contestToEmbed(contest)],
     });
   },
-};
-
-export default command;
+} satisfies SecondLevelChatInputCommand;

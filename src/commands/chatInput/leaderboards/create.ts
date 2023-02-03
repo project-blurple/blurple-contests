@@ -1,14 +1,15 @@
 import { ApplicationCommandOptionType, ButtonStyle, ChannelType, Colors, ComponentType, TextInputStyle } from "discord.js";
 import type { MessageCreateOptions, MessageEditOptions, PrivateThreadChannel, PublicThreadChannel, TextChannel } from "discord.js";
 import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
-import type { ChatInputCommand } from "..";
 import Emojis from "../../../constants/emojis";
 import { Leaderboard } from "../../../database/models/Leaderboard.model";
 import type { LeaderboardDocument } from "../../../database/models/Leaderboard.model";
-import { components } from "../../../handlers/interactions/components";
+import type { SecondLevelChatInputCommand } from "..";
+import { buttonComponents } from "../../../handlers/interactions/components";
 import config from "../../../config";
 
-const command: ChatInputCommand = {
+export default {
+  name: "create",
   description: "Create a leaderboard",
   options: [
     {
@@ -32,18 +33,16 @@ const command: ChatInputCommand = {
   execute(interaction) {
     const channel = interaction.options.getChannel("post_to_channel", true) as PrivateThreadChannel | PublicThreadChannel | TextChannel;
 
-    modals.set(`${interaction.id}:create-leaderboard`, {
-      async callback(modal) {
-        const name = getModalTextInput(modal.components, "name")!;
-        const table = getModalTextInput(modal.components, "table") ?? "";
+    modals.set(`${interaction.id}:create-leaderboard`, async modal => {
+      const name = getModalTextInput(modal.components, "name")!;
+      const table = getModalTextInput(modal.components, "table") ?? "";
 
-        const leaderboard = new Leaderboard({ name, table });
-        const message = await channel.send(generateMessage(leaderboard));
-        leaderboard.messageLink = message.url;
+      const leaderboard = new Leaderboard({ name, table });
+      const message = await channel.send(generateMessage(leaderboard));
+      leaderboard.messageLink = message.url;
 
-        await leaderboard.save();
-        return void modal.reply(`${Emojis.THUMBSUP} Leaderboard has been created successfully, go [here](${leaderboard.messageLink}) to view it and manage it.`);
-      },
+      await leaderboard.save();
+      return void modal.reply(`${Emojis.THUMBSUP} Leaderboard has been created successfully, go [here](${leaderboard.messageLink}) to view it and manage it.`);
     });
 
     void interaction.showModal({
@@ -68,9 +67,7 @@ const command: ChatInputCommand = {
       ],
     });
   },
-};
-
-export default { ...command } as const;
+} satisfies SecondLevelChatInputCommand;
 
 function getScoresFromTableString(table: string): Array<[string, number]> {
   const scores: Record<string, number> = {};
@@ -126,8 +123,7 @@ function generateMessage(leaderboard: LeaderboardDocument): Omit<MessageEditOpti
   };
 }
 
-components.set("leaderboard-edit", {
-  type: "BUTTON",
+buttonComponents.set("leaderboard-edit", {
   allowedUsers: "all",
   async callback(interaction) {
     if (!config.adminRoles.some(allowedRole => interaction.member.roles.cache.has(allowedRole))) {
@@ -171,15 +167,13 @@ components.set("leaderboard-edit", {
       ],
     });
 
-    return void modals.set(`${interaction.id}:edit-leaderboard`, {
-      callback(modal) {
-        const table = getModalTextInput(modal.components, "table")!;
-        leaderboard.table = table;
-        void leaderboard.save();
+    return void modals.set(`${interaction.id}:edit-leaderboard`, modal => {
+      const table = getModalTextInput(modal.components, "table")!;
+      leaderboard.table = table;
+      void leaderboard.save();
 
-        if (!modal.isFromMessage()) return;
-        return void modal.update(generateMessage(leaderboard));
-      },
+      if (!modal.isFromMessage()) return;
+      return void modal.update(generateMessage(leaderboard));
     });
   },
 });

@@ -1,10 +1,11 @@
 import type { APIEmbed } from "discord.js";
-import type { ChatInputCommand } from "..";
 import { Contest } from "../../../database/models/Contest.model";
 import type { ContestDocument } from "../../../database/models/Contest.model";
 import Emojis from "../../../constants/emojis";
+import type { SecondLevelChatInputCommand } from "..";
 
-const command: ChatInputCommand = {
+export default {
+  name: "list",
   description: "List all contests",
   async execute(interaction) {
     const contests = await Contest.find();
@@ -20,9 +21,7 @@ const command: ChatInputCommand = {
       embeds,
     });
   },
-};
-
-export default command;
+} satisfies SecondLevelChatInputCommand;
 
 export function contestToEmbed(contest: ContestDocument): APIEmbed {
   const submissionOpen = Math.round(contest.submissionOpenedDate.getTime() / 1000);

@@ -1,18 +1,19 @@
 import { ApplicationCommandOptionType, Colors } from "discord.js";
 import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
-import type { ChatInputCommand } from "..";
 import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
 import Emojis from "../../../constants/emojis";
+import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
 
-const command: ChatInputCommand = {
+export default {
+  name: "list_participants",
   description: "List participants of a contest",
   options: [
     {
       type: ApplicationCommandOptionType.String,
       name: "contest",
       description: "The name of the contest you want to edit",
-      autocomplete: true,
+      autocomplete: contestAutocomplete,
       required: true,
     },
     {
@@ -37,9 +38,6 @@ const command: ChatInputCommand = {
       ],
     },
   ],
-  autocompletes: {
-    contest: contestAutocomplete,
-  },
   async execute(interaction) {
     const contestId = interaction.options.getString("contest", true);
     const filter = interaction.options.getString("filter", true) as "all" | "approved" | "not-rejected" | "rejected";
@@ -105,6 +103,4 @@ const command: ChatInputCommand = {
       }`,
     });
   },
-};
-
-export default command;
+} satisfies SecondLevelChatInputCommand;
