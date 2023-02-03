@@ -1,29 +1,45 @@
-# compile typescript to normal javascript
-
-FROM node:18-alpine@sha256:bc329c7332cffc30c2d4801e38df03cbfa8dcbae2a7a52a449db104794f168a3 AS builder
-RUN apk --no-cache add dumb-init g++ gcc make python3
+FROM node:18-alpine@sha256:bc329c7332cffc30c2d4801e38df03cbfa8dcbae2a7a52a449db104794f168a3 AS base
+RUN apk --no-cache add g++ gcc make python3
 
 WORKDIR /app
+ENV IS_DOCKER=true
 
-COPY package*.json ./
-RUN npm ci
+
+# base image for package installation
+
+FROM base AS dep-base
+RUN npm install -g pnpm
+
+COPY package.json ./
+COPY package-lock.json ./
+COPY pnpm-lock.yaml ./
+
+
+# install production dependencies
+
+FROM dep-base AS prod-deps
+RUN pnpm install --frozen-lockfile --prod
+
+
+# install all dependencies and build typescript
+
+FROM prod-deps AS ts-builder
+RUN pnpm install --frozen-lockfile
 
 COPY tsconfig.json ./
 COPY ./src ./src
-RUN npm run build
+RUN pnpm run build
 
 
 # production image
 
-FROM node:18-alpine@sha256:bc329c7332cffc30c2d4801e38df03cbfa8dcbae2a7a52a449db104794f168a3 AS final
-RUN apk --no-cache add dumb-init g++ gcc make python3
+FROM base
 
-WORKDIR /app
+COPY .env* ./
+COPY --from=ts-builder /app/build ./build
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY package.json ./
 
-COPY package*.json ./
-RUN npm ci --omit=dev
-
-COPY .env ./.env
-COPY --from=builder /app/build ./build
-
-CMD ["dumb-init", "npm", "start"]
+ENV NODE_ENV=production
+ENTRYPOINT [ "npm", "run" ]
+CMD [ "start" ]
