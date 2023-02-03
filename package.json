@@ -17,7 +17,7 @@
     "docker:up": "docker-compose up -d"
   },
   "dependencies": {
-    "@typegoose/typegoose": "9.11.2",
+    "@typegoose/typegoose": "10.1.0",
     "bufferutil": "4.0.7",
     "chrono-node": "2.4.2",
     "discord.js": "14.7.1",
