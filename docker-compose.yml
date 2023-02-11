@@ -5,7 +5,11 @@ services:
     build: .
     restart: unless-stopped
     environment:
+      - BOT_TOKEN=$BOT_TOKEN
       - DATABASE_URI=mongodb://db/contests
+      - OWNER_ID=$OWNER_ID
+      - GUILD_ID=$GUILD_ID
+      - ADMIN_ROLES=$ADMIN_ROLES
     volumes:
       - ./logs:/app/logs
     depends_on:
