@@ -1,10 +1,10 @@
 import type { Client, TextBasedChannel } from "discord.js";
-import { ContestSubmission, ContestSubmissionStatus } from "../../database/models/ContestSubmission.model";
-import { Contest } from "../../database/models/Contest.model";
-import type { ContestDocument } from "../../database/models/Contest.model";
 import Emojis from "../../constants/emojis";
+import type { ContestDocument } from "../../database/models/Contest.model";
+import { Contest } from "../../database/models/Contest.model";
+import { ContestSubmission, ContestSubmissionStatus } from "../../database/models/ContestSubmission.model";
+import mainLogger from "../../utils/logger/main";
 import { generateSubmittedMessage } from "./messageGenerators";
-import { mainLogger } from "../../utils/logger/main";
 import setupContestInteractions from "./setupContestInteractions";
 
 export default function handleContestSubmissions(client: Client<true>): void {

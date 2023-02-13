@@ -1,12 +1,12 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { Contest } from "../../../database/models/Contest.model";
-import Emojis from "../../../constants/emojis";
 import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
-import { contestToEmbed } from "./list";
-import createCommand from "./create";
-import setupContestInteractions from "../../../handlers/contestSubmissions/setupContestInteractions";
+import Emojis from "../../../constants/emojis";
+import { Contest } from "../../../database/models/Contest.model";
 import { setupJobs } from "../../../handlers/contestSubmissions";
+import setupContestInteractions from "../../../handlers/contestSubmissions/setupContestInteractions";
+import createCommand from "./create";
+import { contestToEmbed } from "./list";
 
 export default {
   name: "edit",

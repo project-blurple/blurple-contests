@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { Contest } from "../../../database/models/Contest.model";
-import Emojis from "../../../constants/emojis";
 import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
+import Emojis from "../../../constants/emojis";
+import { Contest } from "../../../database/models/Contest.model";
 
 export default {
   name: "remove",

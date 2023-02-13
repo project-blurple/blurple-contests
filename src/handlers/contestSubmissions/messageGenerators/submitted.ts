@@ -1,16 +1,16 @@
-import { ButtonStyle, ComponentType } from "discord.js";
 import type { MessageCreateOptions, MessageEditOptions } from "discord.js";
-import { Contest } from "../../../database/models/Contest.model";
-import { ContestSubmission } from "../../../database/models/ContestSubmission.model";
-import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
-import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
-import Emojis from "../../../constants/emojis";
-import { buttonComponents } from "../../interactions/components";
+import { ButtonStyle, ComponentType } from "discord.js";
 import config from "../../../config";
+import Emojis from "../../../constants/emojis";
+import { Contest } from "../../../database/models/Contest.model";
+import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
+import { ContestSubmission } from "../../../database/models/ContestSubmission.model";
+import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
+import mainLogger from "../../../utils/logger/main";
+import { buttonComponents } from "../../interactions/components";
 import { generateSubmissionEmbed } from ".";
-import { mainLogger } from "../../../utils/logger/main";
 
-export function generateSubmittedMessage(submission: ContestSubmissionDocument, votingEnd = false): Omit<MessageEditOptions, "content" | "embeds" | "flags"> & Pick<MessageCreateOptions, "content" | "embeds"> {
+function generateSubmittedMessage(submission: ContestSubmissionDocument, votingEnd = false): Omit<MessageEditOptions, "content" | "embeds" | "flags"> & Pick<MessageCreateOptions, "content" | "embeds"> {
   return {
     content: `Submission by <@${submission.authorId}>.`,
     embeds: [generateSubmissionEmbed(submission)],
@@ -38,6 +38,8 @@ export function generateSubmittedMessage(submission: ContestSubmissionDocument, 
       ],
   };
 }
+
+export default generateSubmittedMessage;
 
 buttonComponents.set("contest-submission-vote", {
   allowedUsers: "all",

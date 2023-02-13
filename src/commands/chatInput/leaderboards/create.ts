@@ -1,12 +1,12 @@
-import { ApplicationCommandOptionType, ButtonStyle, ChannelType, Colors, ComponentType, TextInputStyle } from "discord.js";
 import type { MessageCreateOptions, MessageEditOptions, PrivateThreadChannel, PublicThreadChannel, TextChannel } from "discord.js";
-import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
-import Emojis from "../../../constants/emojis";
-import { Leaderboard } from "../../../database/models/Leaderboard.model";
-import type { LeaderboardDocument } from "../../../database/models/Leaderboard.model";
+import { ApplicationCommandOptionType, ButtonStyle, ChannelType, Colors, ComponentType, TextInputStyle } from "discord.js";
 import type { SecondLevelChatInputCommand } from "..";
-import { buttonComponents } from "../../../handlers/interactions/components";
 import config from "../../../config";
+import Emojis from "../../../constants/emojis";
+import type { LeaderboardDocument } from "../../../database/models/Leaderboard.model";
+import { Leaderboard } from "../../../database/models/Leaderboard.model";
+import { buttonComponents } from "../../../handlers/interactions/components";
+import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
 
 export default {
   name: "create",

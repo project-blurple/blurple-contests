@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionType, Colors } from "discord.js";
-import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
-import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
-import Emojis from "../../../constants/emojis";
 import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
+import Emojis from "../../../constants/emojis";
+import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
+import { ContestVoteEntry } from "../../../database/models/ContestVoteEntry.model";
 
 export default {
   name: "list_participants",

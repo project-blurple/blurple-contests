@@ -1,4 +1,5 @@
-import { type APIEmbed, Colors } from "discord.js";
+import type { APIEmbed } from "discord.js";
+import { Colors } from "discord.js";
 import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
 
 export function generateSubmissionEmbed(submission: ContestSubmissionDocument): APIEmbed {
@@ -12,5 +13,5 @@ export function generateSubmissionEmbed(submission: ContestSubmissionDocument): 
   };
 }
 
-export { generateReviewMessage } from "./review";
-export { generateSubmittedMessage } from "./submitted";
+export { default as generateReviewMessage } from "./review";
+export { default as generateSubmittedMessage } from "./submitted";

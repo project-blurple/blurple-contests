@@ -1,5 +1,7 @@
-import "dotenv/config";
 import type { CacheWithLimitsOptions } from "discord.js";
+import { config } from "dotenv";
+
+config();
 
 export default {
   client: {

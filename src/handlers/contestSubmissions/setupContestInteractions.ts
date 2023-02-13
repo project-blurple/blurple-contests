@@ -1,11 +1,13 @@
-import { ButtonStyle, ComponentType, type TextBasedChannel, TextInputStyle } from "discord.js";
-import { Contest, type ContestDocument } from "../../database/models/Contest.model";
+import type { TextBasedChannel } from "discord.js";
+import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
+import Emojis from "../../constants/emojis";
+import type { ContestDocument } from "../../database/models/Contest.model";
+import { Contest } from "../../database/models/Contest.model";
 import { ContestSubmission, ContestSubmissionStatus } from "../../database/models/ContestSubmission.model";
+import { testLink } from "../../utils/links";
+import { buttonComponents } from "../interactions/components";
 import { createModalTextInput, getModalTextInput, modals } from "../interactions/modals";
 import { generateReviewMessage, generateSubmissionEmbed } from "./messageGenerators";
-import Emojis from "../../constants/emojis";
-import { buttonComponents } from "../interactions/components";
-import { testLink } from "../../utils/links";
 
 export default function setupContestInteractions({ contestId, submissionType, reviewChannelId }: ContestDocument): void {
   buttonComponents.set(`submit-contest-${contestId}`, {

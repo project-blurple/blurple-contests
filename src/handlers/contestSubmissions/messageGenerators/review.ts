@@ -1,13 +1,13 @@
-import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
-import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
 import type { MessageCreateOptions, MessageEditOptions, TextBasedChannel } from "discord.js";
-import { createModalTextInput, getModalTextInput, modals } from "../../interactions/modals";
+import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
+import Emojis from "../../../constants/emojis";
 import { Contest } from "../../../database/models/Contest.model";
 import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
-import Emojis from "../../../constants/emojis";
+import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
 import { buttonComponents } from "../../interactions/components";
+import { createModalTextInput, getModalTextInput, modals } from "../../interactions/modals";
+import generateSubmittedMessage from "./submitted";
 import { generateSubmissionEmbed } from ".";
-import { generateSubmittedMessage } from "./submitted";
 
 buttonComponents.set("contest-review-approve", {
   allowedUsers: "all",
@@ -100,7 +100,7 @@ buttonComponents.set("contest-review-reject", {
   },
 });
 
-export function generateReviewMessage(submission: ContestSubmissionDocument): Omit<MessageEditOptions, "content" | "embeds" | "flags"> & Pick<MessageCreateOptions, "content" | "embeds"> {
+function generateReviewMessage(submission: ContestSubmissionDocument): Omit<MessageEditOptions, "content" | "embeds" | "flags"> & Pick<MessageCreateOptions, "content" | "embeds"> {
   return {
     content: `Submission by <@${submission.authorId}> - needs review.`,
     embeds: [generateSubmissionEmbed(submission)],
@@ -125,3 +125,5 @@ export function generateReviewMessage(submission: ContestSubmissionDocument): Om
     ],
   };
 }
+
+export default generateReviewMessage;

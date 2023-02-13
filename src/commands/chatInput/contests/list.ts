@@ -1,8 +1,8 @@
 import type { APIEmbed } from "discord.js";
-import { Contest } from "../../../database/models/Contest.model";
-import type { ContestDocument } from "../../../database/models/Contest.model";
-import Emojis from "../../../constants/emojis";
 import type { SecondLevelChatInputCommand } from "..";
+import Emojis from "../../../constants/emojis";
+import type { ContestDocument } from "../../../database/models/Contest.model";
+import { Contest } from "../../../database/models/Contest.model";
 
 export default {
   name: "list",
