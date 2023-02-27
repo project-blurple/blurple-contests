@@ -6,7 +6,7 @@ export function generateSubmissionEmbed(submission: ContestSubmissionDocument): 
   return {
     title: submission.title,
     ...submission.submissionType === "text" && { description: submission.submission },
-    ...submission.submissionType === "image" && { image: { url: submission.submission }},
+    ...submission.submissionType === "image" && { image: { url: submission.submission } },
     footer: { text: `${submission.contestId}-${submission.submissionId}` },
     timestamp: submission.submittedAt.toISOString(),
     color: Colors.Blurple,

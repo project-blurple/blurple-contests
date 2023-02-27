@@ -14,7 +14,7 @@ function generateSubmittedMessage(submission: ContestSubmissionDocument, votingE
   return {
     content: `Submission by <@${submission.authorId}>.`,
     embeds: [generateSubmissionEmbed(submission)],
-    allowedMentions: { users: [submission.authorId]},
+    allowedMentions: { users: [submission.authorId] },
     components: votingEnd ?
       [] :
       [
@@ -87,7 +87,7 @@ buttonComponents.set("contest-submission-vote", {
         allowedUsers: [interaction.user.id],
         async callback(buttonInteraction) {
           await registeredVote.remove();
-          void buttonInteraction.update({ content: `${Emojis.THUMBSUP} Your vote has been removed.`, components: []});
+          void buttonInteraction.update({ content: `${Emojis.THUMBSUP} Your vote has been removed.`, components: [] });
         },
       });
 
@@ -162,7 +162,7 @@ buttonComponents.set("contest-submission-admin", {
         mainLogger.info(`Staff member ${buttonInteraction.user.tag} (${buttonInteraction.user.id}) removed submission ${submissionId} from contest ${contestId}`);
         await submission.remove();
         await message.delete();
-        void buttonInteraction.update({ content: `${Emojis.THUMBSUP} The submission has been removed.`, components: []});
+        void buttonInteraction.update({ content: `${Emojis.THUMBSUP} The submission has been removed.`, components: [] });
       },
     });
 
