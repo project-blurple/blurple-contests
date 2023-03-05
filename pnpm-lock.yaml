@@ -10,7 +10,7 @@ specifiers:
   '@types/node': 18.14.6
   '@types/superagent': 4.1.16
   bufferutil: 4.0.7
-  chrono-node: 2.5.0
+  chrono-node: 2.5.1
   dedent: 0.7.0
   discord.js: 14.7.1
   dotenv: 16.0.3
@@ -33,7 +33,7 @@ dependencies:
   '@sapphire/type': 2.3.0
   '@typegoose/typegoose': 10.2.0_mongoose@6.10.0
   bufferutil: 4.0.7
-  chrono-node: 2.5.0
+  chrono-node: 2.5.1
   dedent: 0.7.0
   discord.js: 14.7.1_3cxu5zja4e2r5wmvge7mdcljwq
   dotenv: 16.0.3
@@ -2344,8 +2344,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /chrono-node/2.5.0:
-    resolution: {integrity: sha512-GasdFCw4tsb8UKlwyJW1S+3bdN06vsyGR2cEDMlhEGI7ic4SQRnLyl/hbItwSum6pPkkUTrzFcaR3C2tZnnO5Q==}
+  /chrono-node/2.5.1:
+    resolution: {integrity: sha512-q8JDDO6eHJTvnpduPQ5p6WXxzzpqj89rjnnq0xTh58tKF3bPQztjxrUMiyKVXpx7p+InkH5W7Z+eha8X/tLpgA==}
     dependencies:
       dayjs: 1.11.7
     dev: false
