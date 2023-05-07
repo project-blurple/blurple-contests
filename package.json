@@ -21,7 +21,7 @@
     "@sapphire/type": "2.4.0",
     "@typegoose/typegoose": "10.2.0",
     "bufferutil": "4.0.7",
-    "chrono-node": "2.5.1",
+    "chrono-node": "2.6.3",
     "dedent": "0.7.0",
     "discord.js": "14.11.0",
     "dotenv": "16.0.3",
