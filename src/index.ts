@@ -28,7 +28,6 @@ const client = new Client({
   ],
   presence: { status: "online" },
   rest: { userAgentAppendix: "Blurple Contests (projectblurple.com)" },
-  ws: { compress: true },
 });
 
 client.once("ready", trueClient => {
