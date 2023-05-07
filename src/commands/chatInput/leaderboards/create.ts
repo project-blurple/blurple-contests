@@ -1,4 +1,4 @@
-import type { MessageCreateOptions, MessageEditOptions, PrivateThreadChannel, PublicThreadChannel, TextChannel } from "discord.js";
+import type { MessageCreateOptions, MessageEditOptions } from "discord.js";
 import { ApplicationCommandOptionType, ButtonStyle, ChannelType, Colors, ComponentType, TextInputStyle } from "discord.js";
 import type { SecondLevelChatInputCommand } from "..";
 import config from "../../../config";
@@ -31,7 +31,11 @@ export default {
     },
   ],
   execute(interaction) {
-    const channel = interaction.options.getChannel("post_to_channel", true) as PrivateThreadChannel | PublicThreadChannel | TextChannel;
+    const channel = interaction.options.getChannel("post_to_channel", true, [
+      ChannelType.PrivateThread,
+      ChannelType.PublicThread,
+      ChannelType.GuildText,
+    ]);
 
     modals.set(`${interaction.id}:create-leaderboard`, async modal => {
       const name = getModalTextInput(modal.components, "name")!;
