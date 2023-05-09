@@ -11,7 +11,6 @@ import { generateSubmissionEmbed } from ".";
 
 buttonComponents.set("contest-review-approve", {
   allowedUsers: "all",
-  persistent: true,
   async callback(interaction) {
     const interactionMessage = await interaction.channel!.messages.fetch(interaction.message.id).catch(() => null);
     const [contestId, submissionId] = interactionMessage?.embeds[0]?.footer?.text.split("-") ?? [];
@@ -38,7 +37,6 @@ buttonComponents.set("contest-review-approve", {
 
 buttonComponents.set("contest-review-reject", {
   allowedUsers: "all",
-  persistent: true,
   async callback(interaction) {
     const interactionMessage = await interaction.channel!.messages.fetch(interaction.message.id).catch(() => null);
     const [contestId, submissionId] = interactionMessage?.embeds[0]?.footer?.text.split("-") ?? [];

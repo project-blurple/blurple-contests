@@ -3,7 +3,6 @@ import { ComponentType } from "discord.js";
 
 interface BaseComponent {
   allowedUsers: "all" | [Snowflake, ...Snowflake[]];
-  persistent?: true;
 }
 
 interface ButtonComponent extends BaseComponent {
@@ -42,11 +41,9 @@ export default function componentHandler(interaction: AnySelectMenuInteraction<"
   if (interaction.isButton()) {
     const component = buttonComponents.get(interaction.customId);
     if (component && (component.allowedUsers === "all" || component.allowedUsers.includes(interaction.user.id))) void component.callback(interaction);
-    if (!component?.persistent) buttonComponents.delete(interaction.customId);
   } else if (interaction.isAnySelectMenu()) {
     const component = selectMenuComponents.get(interaction.customId);
     if (component && (component.allowedUsers === "all" || component.allowedUsers.includes(interaction.user.id)) && selectComponentMatchesInteractionType(interaction, component)) void component.callback(interaction as never);
-    if (!component?.persistent) selectMenuComponents.delete(interaction.customId);
   }
 }
 

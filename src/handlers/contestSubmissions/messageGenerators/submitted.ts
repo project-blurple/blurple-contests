@@ -43,7 +43,6 @@ export default generateSubmittedMessage;
 
 buttonComponents.set("contest-submission-vote", {
   allowedUsers: "all",
-  persistent: true,
   async callback(interaction) {
     const message = await interaction.channel!.messages.fetch(interaction.message.id).catch(() => null);
     const [contestId, submissionId] = message?.embeds[0]?.footer?.text.split("-") ?? [];
@@ -134,7 +133,6 @@ buttonComponents.set("contest-submission-vote", {
 
 buttonComponents.set("contest-submission-admin", {
   allowedUsers: "all",
-  persistent: true,
   async callback(interaction) {
     if (!config.adminRoles.some(allowedRole => interaction.member.roles.cache.has(allowedRole))) {
       return void interaction.reply({
