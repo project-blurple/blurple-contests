@@ -8,8 +8,5 @@ export default function chatInputCommandHandler(interaction: ChatInputCommandInt
   if (command && hierarchy[1] && "subcommands" in command) command = command.subcommands.find(({ name }) => name === hierarchy[1]);
   if (command && hierarchy[2] && "subcommands" in command) command = command.subcommands.find(({ name }) => name === hierarchy[2]);
 
-  if (command && "execute" in command) {
-    if (!command.public && interaction.user.id !== config.ownerId) return;
-    return void command.execute(interaction);
-  }
+  if (command && "execute" in command) return void command.execute(interaction);
 }
