@@ -12,6 +12,7 @@ import { generateReviewMessage, generateSubmissionEmbed } from "./messageGenerat
 export default function setupContestInteractions({ contestId, submissionType, reviewChannelId }: ContestDocument): void {
   buttonComponents.set(`submit-contest-${contestId}`, {
     allowedUsers: "all",
+    persistent: true,
     async callback(interaction) {
       const contest = await Contest.findOne({ contestId });
       if (!contest) {

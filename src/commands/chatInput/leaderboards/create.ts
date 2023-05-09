@@ -129,6 +129,7 @@ function generateMessage(leaderboard: LeaderboardDocument): Omit<MessageEditOpti
 
 buttonComponents.set("leaderboard-edit", {
   allowedUsers: "all",
+  persistent: true,
   async callback(interaction) {
     if (!config.adminRoles.some(allowedRole => interaction.member.roles.cache.has(allowedRole))) {
       return void interaction.reply({
