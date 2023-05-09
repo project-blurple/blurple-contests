@@ -1,6 +1,5 @@
 import type{ ChatInputCommandInteraction } from "discord.js";
 import { allChatInputCommands } from "../../commands/chatInput";
-import config from "../../config";
 
 export default function chatInputCommandHandler(interaction: ChatInputCommandInteraction<"cached">): void {
   const hierarchy = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)] as const;
