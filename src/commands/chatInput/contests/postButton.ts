@@ -23,6 +23,7 @@ export default {
         ChannelType.PrivateThread,
         ChannelType.PublicThread,
         ChannelType.GuildText,
+        ChannelType.GuildAnnouncement,
       ],
       required: true,
     },
