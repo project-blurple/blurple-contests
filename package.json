@@ -40,7 +40,7 @@
     "@types/dedent": "0.7.0",
     "@types/human-date": "1.4.2",
     "@types/jest": "29.5.1",
-    "@types/node": "18.16.8",
+    "@types/node": "18.16.9",
     "@types/superagent": "4.1.17",
     "eslint": "8.40.0",
     "eslint-config-promise": "github:promise/eslint-config",
