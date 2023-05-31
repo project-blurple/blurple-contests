@@ -8,7 +8,7 @@ ENV IS_DOCKER=true
 # base image for package installation
 
 FROM base AS dep-base
-RUN npm install -g pnpm
+RUN npm install -g pnpm@8
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
