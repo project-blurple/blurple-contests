@@ -25,7 +25,7 @@ export default {
       });
     }
 
-    await contest.remove();
+    await contest.deleteOne();
     return void interaction.reply({
       content: `${Emojis.THUMBSUP} Contest removed.`,
     });

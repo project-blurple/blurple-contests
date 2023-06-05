@@ -86,7 +86,7 @@ buttonComponents.set("contest-submission-vote", {
       buttonComponents.set(`${interaction.id}-remove-vote`, {
         allowedUsers: [interaction.user.id],
         async callback(buttonInteraction) {
-          await registeredVote.remove();
+          await registeredVote.deleteOne();
           void buttonInteraction.update({ content: `${Emojis.THUMBSUP} Your vote has been removed.`, components: [] });
         },
       });
@@ -160,7 +160,7 @@ buttonComponents.set("contest-submission-admin", {
       allowedUsers: [interaction.user.id],
       async callback(buttonInteraction) {
         mainLogger.info(`Staff member ${buttonInteraction.user.tag} (${buttonInteraction.user.id}) removed submission ${submissionId} from contest ${contestId}`);
-        await submission.remove();
+        await submission.deleteOne();
         await message.delete();
         void buttonInteraction.update({ content: `${Emojis.THUMBSUP} The submission has been removed.`, components: [] });
       },
