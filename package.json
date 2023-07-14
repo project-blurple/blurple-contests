@@ -37,7 +37,6 @@
   },
   "devDependencies": {
     "@tsconfig/node18-strictest": "1.0.0",
-    "@types/dedent": "0.7.0",
     "@types/human-date": "1.4.2",
     "@types/jest": "29.5.3",
     "@types/node": "18.16.19",
