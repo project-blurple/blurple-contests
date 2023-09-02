@@ -15,8 +15,8 @@ dependencies:
     specifier: 4.0.7
     version: 4.0.7
   chrono-node:
-    specifier: 2.6.5
-    version: 2.6.5
+    specifier: 2.6.6
+    version: 2.6.6
   dedent:
     specifier: 1.5.1
     version: 1.5.1
@@ -1636,8 +1636,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /chrono-node@2.6.5:
-    resolution: {integrity: sha512-1B4iFd8xJ235PAprvRbs7zaEvmepOrN7dQ5UWjsXoDnlRP1vriGUwmcYw+KeQGKtz+YkgMo7bglf/q/l2VhoxQ==}
+  /chrono-node@2.6.6:
+    resolution: {integrity: sha512-RObSvo49wRL/ek6U4lMuZjmCi//gLM2GsHBMauIw/50fBbP6To3F99vn88IRL9w4qC39tFRnJZc6uiGrOi1oGw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       dayjs: 1.11.9
