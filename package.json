@@ -38,7 +38,7 @@
   "devDependencies": {
     "@tsconfig/node18": "18.2.2",
     "@tsconfig/strictest": "2.0.2",
-    "@types/human-date": "1.4.4",
+    "@types/human-date": "1.4.5",
     "@types/jest": "29.5.7",
     "@types/node": "18.18.8",
     "@types/superagent": "4.1.20",

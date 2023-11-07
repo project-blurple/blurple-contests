@@ -62,8 +62,8 @@ devDependencies:
     specifier: 2.0.2
     version: 2.0.2
   '@types/human-date':
-    specifier: 1.4.4
-    version: 1.4.4
+    specifier: 1.4.5
+    version: 1.4.5
   '@types/jest':
     specifier: 29.5.7
     version: 29.5.7
@@ -998,8 +998,8 @@ packages:
       '@types/node': 18.18.8
     dev: true
 
-  /@types/human-date@1.4.4:
-    resolution: {integrity: sha512-RQAfDBGXVaGChTQdy5Sa/3RheOpbs5JKzD1DWmuwvEfMhdvxT/GJFWFvBJG+ucEko1inI/0Yf6nbLLb1+dlR+w==}
+  /@types/human-date@1.4.5:
+    resolution: {integrity: sha512-v5j3cmL6kCy3DwUoxYeVFTl+tQGlUtciMlKgSHONE1YW7uqrvaLO0UcovWYQq8cP/v+0W0hoQUjAfQghFrO7aQ==}
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.5:
