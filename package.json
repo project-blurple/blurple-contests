@@ -41,7 +41,7 @@
     "@types/human-date": "1.4.5",
     "@types/jest": "29.5.7",
     "@types/node": "18.18.8",
-    "@types/superagent": "4.1.20",
+    "@types/superagent": "4.1.21",
     "eslint": "8.53.0",
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "29.7.0",
