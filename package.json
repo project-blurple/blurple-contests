@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@sapphire/type": "2.4.1",
-    "@typegoose/typegoose": "11.5.0",
+    "@typegoose/typegoose": "11.7.1",
     "bufferutil": "4.0.8",
     "chrono-node": "2.7.3",
     "dedent": "1.5.1",
@@ -28,7 +28,7 @@
     "erlpack": "github:discord/erlpack",
     "human-date": "1.4.0",
     "match-sorter": "6.3.1",
-    "mongoose": "7.5.4",
+    "mongoose": "7.6.5",
     "superagent": "8.1.2",
     "utf-8-validate": "6.0.3",
     "winston": "3.11.0",
