@@ -3,7 +3,7 @@ import { relativeTime } from "human-date";
 import type { Autocomplete } from "../../handlers/interactions/autocompletes";
 
 const dateAutocomplete: Autocomplete<string> = query => {
-  const date = parseDate(query, new Date(), { forwardDate: true }) as Date | null;
+  const date = parseDate(query, new Date(), { forwardDate: true });
   if (!date) {
     return [{ name: "Invalid date", value: "0" }];
   }
