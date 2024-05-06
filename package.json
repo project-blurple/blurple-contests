@@ -40,7 +40,7 @@
     "@tsconfig/strictest": "2.0.5",
     "@types/human-date": "1.4.5",
     "@types/jest": "29.5.12",
-    "@types/node": "18.19.31",
+    "@types/node": "18.19.32",
     "@types/superagent": "8.1.7",
     "eslint": "8.57.0",
     "eslint-config-promise": "github:promise/eslint-config",
