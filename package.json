@@ -28,7 +28,7 @@
     "erlpack": "github:discord/erlpack",
     "human-date": "1.4.0",
     "match-sorter": "6.3.4",
-    "mongoose": "8.7.1",
+    "mongoose": "8.7.2",
     "superagent": "10.1.0",
     "utf-8-validate": "6.0.4",
     "winston": "3.14.2",
