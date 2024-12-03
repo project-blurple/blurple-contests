@@ -24,7 +24,7 @@
     "chrono-node": "2.7.7",
     "dedent": "1.5.3",
     "discord.js": "14.15.3",
-    "dotenv": "16.4.5",
+    "dotenv": "16.4.6",
     "erlpack": "github:discord/erlpack",
     "human-date": "1.4.0",
     "match-sorter": "8.0.0",
