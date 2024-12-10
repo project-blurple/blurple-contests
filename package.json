@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@sapphire/type": "2.5.1",
-    "@typegoose/typegoose": "12.8.0",
+    "@typegoose/typegoose": "12.9.1",
     "bufferutil": "4.0.8",
     "chrono-node": "2.7.7",
     "dedent": "1.5.3",
@@ -27,7 +27,7 @@
     "dotenv": "16.4.7",
     "human-date": "1.4.0",
     "match-sorter": "8.0.0",
-    "mongoose": "8.8.3",
+    "mongoose": "8.8.4",
     "winston": "3.17.0",
     "winston-daily-rotate-file": "5.0.0",
     "zlib-sync": "0.1.9"
