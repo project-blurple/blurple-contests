@@ -23,7 +23,7 @@
     "bufferutil": "4.0.8",
     "chrono-node": "2.7.7",
     "dedent": "1.5.3",
-    "discord.js": "14.15.3",
+    "discord.js": "14.16.3",
     "dotenv": "16.4.7",
     "human-date": "1.4.0",
     "match-sorter": "8.0.0",
