@@ -21,6 +21,7 @@ export default {
     },
     ...createCommand.options.map(option => ({ ...option, required: false })),
   ],
+  // eslint-disable-next-line complexity
   async execute(interaction) {
     const contest = await Contest.findOne({ contestId: interaction.options.getString("contest", true) });
     if (!contest) {

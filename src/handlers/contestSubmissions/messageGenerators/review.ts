@@ -1,13 +1,13 @@
 import type { MessageCreateOptions, MessageEditOptions, TextBasedChannel } from "discord.js";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
+import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
+import { generateSubmissionEmbed } from ".";
 import Emojis from "../../../constants/emojis";
 import { Contest } from "../../../database/models/Contest.model";
-import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
 import { ContestSubmission, ContestSubmissionStatus } from "../../../database/models/ContestSubmission.model";
 import { buttonComponents } from "../../interactions/components";
 import { createModalTextInput, getModalTextInput, modals } from "../../interactions/modals";
 import generateSubmittedMessage from "./submitted";
-import { generateSubmissionEmbed } from ".";
 
 buttonComponents.set("contest-review-approve", {
   allowedUsers: "all",

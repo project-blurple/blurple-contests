@@ -1,6 +1,6 @@
 import type { Client, TextBasedChannel } from "discord.js";
-import Emojis from "../../constants/emojis";
 import type { ContestDocument } from "../../database/models/Contest.model";
+import Emojis from "../../constants/emojis";
 import { Contest } from "../../database/models/Contest.model";
 import { ContestSubmission, ContestSubmissionStatus } from "../../database/models/ContestSubmission.model";
 import mainLogger from "../../utils/logger/main";
@@ -52,7 +52,7 @@ export function setupJobs(contest: ContestDocument, client: Client): void {
 }
 
 function onSubmissionEnd(contest: ContestDocument, client: Client): void {
-  const channel = client.channels.resolve(contest.submissionChannelId) as TextBasedChannel | null;
+  const channel = client.channels.resolve(contest.submissionChannelId) as null | TextBasedChannel;
   if (!channel) return void mainLogger.warn(`Could not find channel ${contest.submissionChannelId} when trying to update voting results`);
 
   return void channel.send({
@@ -61,7 +61,7 @@ function onSubmissionEnd(contest: ContestDocument, client: Client): void {
 }
 
 function onVoteStart(contest: ContestDocument, client: Client): void {
-  const channel = client.channels.resolve(contest.submissionChannelId) as TextBasedChannel | null;
+  const channel = client.channels.resolve(contest.submissionChannelId) as null | TextBasedChannel;
   if (!channel) return void mainLogger.warn(`Could not find channel ${contest.submissionChannelId} when trying to update voting results`);
 
   return void channel.send({
@@ -70,7 +70,7 @@ function onVoteStart(contest: ContestDocument, client: Client): void {
 }
 
 function onVoteEnd(contest: ContestDocument, client: Client): void {
-  const channel = client.channels.resolve(contest.submissionChannelId) as TextBasedChannel | null;
+  const channel = client.channels.resolve(contest.submissionChannelId) as null | TextBasedChannel;
   if (!channel) return void mainLogger.warn(`Could not find channel ${contest.submissionChannelId} when trying to update voting results`);
 
   return void ContestSubmission.find({ contestId: contest.contestId }).then(async submissions => {
