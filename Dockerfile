@@ -1,4 +1,4 @@
-FROM node:18-alpine@sha256:3120b21ed49333280d78dfe44b6eabc25c3309c3366bbcfa409b804334fd16ab AS base
+FROM node:22-alpine AS base
 RUN apk --no-cache add g++ gcc make python3
 
 WORKDIR /app
@@ -8,7 +8,7 @@ ENV IS_DOCKER=true
 # base image for package installation
 
 FROM base AS dep-base
-RUN npm install -g pnpm@8
+RUN corepack enable pnpm
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./

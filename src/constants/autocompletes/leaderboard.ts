@@ -1,6 +1,6 @@
 import { matchSorter } from "match-sorter";
-import { Leaderboard } from "../../database/models/Leaderboard.model";
 import type { Autocomplete } from "../../handlers/interactions/autocompletes";
+import { Leaderboard } from "../../database/models/Leaderboard.model";
 
 const leaderboardAutocomplete: Autocomplete<string> = async query => {
   const leaderboards = await Leaderboard.find();

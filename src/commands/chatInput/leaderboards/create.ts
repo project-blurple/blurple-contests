@@ -1,9 +1,9 @@
 import type { MessageCreateOptions, MessageEditOptions } from "discord.js";
 import { ApplicationCommandOptionType, ButtonStyle, ChannelType, Colors, ComponentType, TextInputStyle } from "discord.js";
 import type { SecondLevelChatInputCommand } from "..";
+import type { LeaderboardDocument } from "../../../database/models/Leaderboard.model";
 import config from "../../../config";
 import Emojis from "../../../constants/emojis";
-import type { LeaderboardDocument } from "../../../database/models/Leaderboard.model";
 import { Leaderboard } from "../../../database/models/Leaderboard.model";
 import { buttonComponents } from "../../../handlers/interactions/components";
 import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";

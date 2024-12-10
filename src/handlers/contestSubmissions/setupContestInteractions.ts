@@ -1,7 +1,7 @@
 import type { TextBasedChannel } from "discord.js";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
-import Emojis from "../../constants/emojis";
 import type { ContestDocument } from "../../database/models/Contest.model";
+import Emojis from "../../constants/emojis";
 import { Contest } from "../../database/models/Contest.model";
 import { ContestSubmission, ContestSubmissionStatus } from "../../database/models/ContestSubmission.model";
 import { testLink } from "../../utils/links";
