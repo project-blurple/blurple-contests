@@ -5,24 +5,20 @@ WORKDIR /app
 ENV IS_DOCKER=true
 
 
-# base image for package installation
+# install prod dependencies
 
-FROM base AS dep-base
+FROM base AS deps
 RUN corepack enable pnpm
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-
-# install production dependencies
-
-FROM dep-base AS prod-deps
 RUN pnpm install --frozen-lockfile --prod
 
 
 # install all dependencies and build typescript
 
-FROM prod-deps AS ts-builder
+FROM deps AS ts-builder
 RUN pnpm install --frozen-lockfile
 
 COPY tsconfig.json ./
@@ -33,12 +29,11 @@ RUN pnpm run build
 # production image
 
 FROM base
-
-COPY .env* ./
-COPY --from=ts-builder /app/build ./build
-COPY --from=prod-deps /app/node_modules ./node_modules
-COPY package.json ./
-
 ENV NODE_ENV=production
+
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY package.json .env* ./
+COPY --from=ts-builder /app/build ./build
+
 ENTRYPOINT [ "npm", "run" ]
 CMD [ "start" ]
