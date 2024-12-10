@@ -1,4 +1,4 @@
-import type { TextBasedChannel } from "discord.js";
+import type { SendableChannels, TextBasedChannel } from "discord.js";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
 import type { ContestDocument } from "../../database/models/Contest.model";
 import Emojis from "../../constants/emojis";
@@ -98,7 +98,7 @@ export default function setupContestInteractions({ contestId, submissionType, re
     buttonComponents.set(`${modal.id}-lgtm`, {
       allowedUsers: [modal.user.id],
       async callback(interaction) {
-        const message = await (modal.client.channels.resolve(reviewChannelId) as TextBasedChannel).send(generateReviewMessage(contestSubmission));
+        const message = await (modal.client.channels.resolve(reviewChannelId) as SendableChannels & TextBasedChannel).send(generateReviewMessage(contestSubmission));
         contestSubmission.messageLink = message.url;
         void contestSubmission.save();
         return void interaction.update({

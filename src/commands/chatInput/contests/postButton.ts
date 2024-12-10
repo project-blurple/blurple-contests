@@ -1,4 +1,4 @@
-import type { TextBasedChannel } from "discord.js";
+import type { SendableChannels, TextBasedChannel } from "discord.js";
 import { ApplicationCommandOptionType, ButtonStyle, ChannelType, ComponentType } from "discord.js";
 import type { SecondLevelChatInputCommand } from "..";
 import contestAutocomplete from "../../../constants/autocompletes/contest";
@@ -30,7 +30,7 @@ export default {
   ],
   async execute(interaction) {
     const contestId = interaction.options.getString("contest", true);
-    const channel = interaction.options.getChannel("channel", true) as TextBasedChannel;
+    const channel = interaction.options.getChannel("channel", true) as SendableChannels & TextBasedChannel;
 
     const message = await channel.send({
       components: [

@@ -1,4 +1,4 @@
-import type { MessageCreateOptions, MessageEditOptions, TextBasedChannel } from "discord.js";
+import type { MessageCreateOptions, MessageEditOptions, SendableChannels, TextBasedChannel } from "discord.js";
 import { ButtonStyle, ComponentType, TextInputStyle } from "discord.js";
 import type { ContestSubmissionDocument } from "../../../database/models/ContestSubmission.model";
 import { generateSubmissionEmbed } from ".";
@@ -26,7 +26,7 @@ buttonComponents.set("contest-review-approve", {
     }
 
     contestSubmission.status = ContestSubmissionStatus.APPROVED;
-    const message = await (interaction.client.channels.resolve(contest.submissionChannelId) as TextBasedChannel).send(generateSubmittedMessage(contestSubmission));
+    const message = await (interaction.client.channels.resolve(contest.submissionChannelId) as SendableChannels & TextBasedChannel).send(generateSubmittedMessage(contestSubmission));
     contestSubmission.messageLink = message.url;
 
     await contestSubmission.save();
