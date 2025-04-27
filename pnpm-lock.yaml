@@ -18,8 +18,8 @@ importers:
         specifier: 4.0.9
         version: 4.0.9
       chrono-node:
-        specifier: 2.7.9
-        version: 2.7.9
+        specifier: 2.8.0
+        version: 2.8.0
       dedent:
         specifier: 1.5.3
         version: 1.5.3
@@ -917,8 +917,8 @@ packages:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
 
-  chrono-node@2.7.9:
-    resolution: {integrity: sha512-PW3tzuztH7OFbwdCCwv1k8F6ALFs5Yet1Neh5JJBL1GGj8zsLj3ZgZU6StUyM6gSsVRMv8EE6LqpTjM52Mshrw==}
+  chrono-node@2.8.0:
+    resolution: {integrity: sha512-//a/HhnCQ4zFHxRfi1m+jQwr8o0Gxsg0GUjZ39O6ud9lkhrnuLGX1oOKjGsivm9AVMS79cn0PmTa6JCRlzgfWA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   ci-info@3.9.0:
@@ -3962,7 +3962,7 @@ snapshots:
 
   chownr@2.0.0: {}
 
-  chrono-node@2.7.9:
+  chrono-node@2.8.0:
     dependencies:
       dayjs: 1.11.13
 
