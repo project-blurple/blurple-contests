@@ -37,7 +37,7 @@
     "@tsconfig/strictest": "2.0.5",
     "@types/human-date": "1.4.5",
     "@types/jest": "30.0.0",
-    "@types/node": "22.17.1",
+    "@types/node": "22.17.2",
     "eslint": "9.33.0",
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "30.0.5",
