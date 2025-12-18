@@ -27,7 +27,7 @@
     "dotenv": "17.2.3",
     "human-date": "1.4.0",
     "match-sorter": "8.2.0",
-    "mongoose": "8.20.3",
+    "mongoose": "8.20.4",
     "winston": "3.19.0",
     "winston-daily-rotate-file": "5.0.0",
     "zlib-sync": "0.1.10"
