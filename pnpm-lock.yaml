@@ -18,8 +18,8 @@ importers:
         specifier: 4.0.9
         version: 4.0.9
       chrono-node:
-        specifier: 2.9.0
-        version: 2.9.0
+        specifier: 2.9.1
+        version: 2.9.1
       dedent:
         specifier: 1.7.2
         version: 1.7.2
@@ -68,7 +68,7 @@ importers:
         version: 9.39.4(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/7d513340b6cbb2087e7607f8a766aa644bfc3f84(5da8c194a57c328e4aeefbe41aafb9ec)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/7c673225980f3a469cffa2347f704c1a4be50030(70f9d0e286df709c57cf82ec32d70a48)
       jest:
         specifier: 30.3.0
         version: 30.3.0(@types/node@22.19.17)
@@ -1058,8 +1058,8 @@ packages:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
 
-  chrono-node@2.9.0:
-    resolution: {integrity: sha512-glI4YY2Jy6JII5l3d5FN6rcrIbKSQqKPhWsIRYPK2IK8Mm4Q1ZZFdYIaDqglUNf7gNwG+kWIzTn0omzzE0VkvQ==}
+  chrono-node@2.9.1:
+    resolution: {integrity: sha512-nqP8Zp11efCYQIESXPxeDM8ikzN5BDb3Zzou+a66fZq+X2hzKFdsNLQE2/uBAh//BZEMbaMo1eTnagK7hOenAg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   ci-info@4.4.0:
@@ -1293,8 +1293,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/7d513340b6cbb2087e7607f8a766aa644bfc3f84:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/7d513340b6cbb2087e7607f8a766aa644bfc3f84}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/7c673225980f3a469cffa2347f704c1a4be50030:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/7c673225980f3a469cffa2347f704c1a4be50030}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -1308,7 +1308,7 @@ packages:
       eslint-plugin-perfectionist: 4.12.3
       eslint-plugin-react: 7.37.5
       eslint-plugin-tailwindcss: 3.18.0
-      globals: 17.5.0
+      globals: 17.6.0
 
   eslint-import-resolver-node@0.3.10:
     resolution: {integrity: sha512-tRrKqFyCaKict5hOd244sL6EQFNycnMQnBe+j8uqGNXYzsImGbGUU4ibtoaBmv5FLwJwcFJNeg1GeVjQfbMrDQ==}
@@ -1586,8 +1586,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@17.5.0:
-    resolution: {integrity: sha512-qoV+HK2yFl/366t2/Cb3+xxPUo5BuMynomoDmiaZBIdbs+0pYbjfZU+twLhGKp4uCZ/+NbtpVepH5bGCxRyy2g==}
+  globals@17.6.0:
+    resolution: {integrity: sha512-sepffkT8stwnIYbsMBpoCHJuJM5l98FUF2AnE07hfvE0m/qp3R586hw4jF4uadbhvg1ooIdzuu7CsfD2jzCaNA==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -4210,7 +4210,7 @@ snapshots:
 
   chownr@2.0.0: {}
 
-  chrono-node@2.9.0: {}
+  chrono-node@2.9.1: {}
 
   ci-info@4.4.0: {}
 
@@ -4480,7 +4480,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/7d513340b6cbb2087e7607f8a766aa644bfc3f84(5da8c194a57c328e4aeefbe41aafb9ec):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/7c673225980f3a469cffa2347f704c1a4be50030(70f9d0e286df709c57cf82ec32d70a48):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.4(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.4(jiti@1.21.7))
@@ -4493,7 +4493,7 @@ snapshots:
       eslint-plugin-perfectionist: 4.12.3(eslint@9.39.4(jiti@1.21.7))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.4(jiti@1.21.7))
       eslint-plugin-tailwindcss: 3.18.0(tailwindcss@3.4.19)
-      globals: 17.5.0
+      globals: 17.6.0
 
   eslint-import-resolver-node@0.3.10:
     dependencies:
@@ -4850,7 +4850,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@17.5.0: {}
+  globals@17.6.0: {}
 
   globalthis@1.0.4:
     dependencies:
